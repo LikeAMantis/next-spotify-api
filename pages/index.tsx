@@ -8,8 +8,10 @@ import Player from "../components/Player";
 
 export default function Home() {
     const spotifyApi = useSpotify();
+    const { data: session } = useSession();
     const [playlists, setPlaylists] = useState([]);
     const [activePlaylistId, setActivePlaylistId] = useLocalStorage("activePlaylistId");
+    const [currentSong, setCurrentSong] = useLocalStorage("currentSong");
 
     useEffect(() => {
         if (spotifyApi.getAccessToken()) {
@@ -24,13 +26,13 @@ export default function Home() {
                 }
             })
         }
-    }, []);
+    }, [session]);
 
     return (
         <main className="grid h-screen grid-cols-1 md:grid-cols-[auto_1fr]">
-            <Sidebar playlists={playlists} setActivePlaylistId={setActivePlaylistId} spotifyApi={spotifyApi} />
-            <Center activePlaylist={playlists.find(playlist => playlist.id === activePlaylistId)} spotifyApi={spotifyApi} />
-            <Player />
+            <Sidebar playlists={playlists} setActivePlaylistId={setActivePlaylistId} />
+            <Center activePlaylist={playlists.find(playlist => playlist.id === activePlaylistId)} setCurrentSong={setCurrentSong} />
+            <Player currentSong={currentSong} setCurrentSong={setCurrentSong} />
         </main>
         // Players
     )

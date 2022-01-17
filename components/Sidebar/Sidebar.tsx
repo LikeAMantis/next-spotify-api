@@ -1,15 +1,16 @@
 import { HomeIcon, SearchIcon, LibraryIcon, PlusIcon, LogoutIcon } from "@heroicons/react/outline"
-import { signOut } from "next-auth/react"
 import { Button } from "./Button"
+import useSpotify from "../../lib/useSpotify";
 
 
 interface Props {
     playlists: [],
     setActivePlaylistId: any,
-    spotifyApi: any,
+    setCurrentSong: Object,
 }
 
-export const Sidebar = ({ playlists, setActivePlaylistId, spotifyApi }: Props) => {
+export const Sidebar = ({ playlists, setActivePlaylistId }: Props) => {
+    const spotifyApi = useSpotify();
 
     return (
         <div className="hidden min-w-max shadow-lg overflow-y-scroll no-scrollbar bg-black text-gray-400 p-5 pb-19 space-y-3
