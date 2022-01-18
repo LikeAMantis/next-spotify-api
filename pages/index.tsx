@@ -5,8 +5,11 @@ import { Sidebar } from "../components/Sidebar/Sidebar";
 import useSpotify from "../lib/useSpotify";
 import useLocalStorage from "../lib/useLocalStorage";
 import Player from "../components/Player";
+import { RecoilRoot } from 'recoil';
+import { useRouter } from "next/router";
 
 export default function Home() {
+    const router = useRouter();
     const spotifyApi = useSpotify();
     const { data: session } = useSession();
     const [playlists, setPlaylists] = useState([]);
@@ -19,7 +22,7 @@ export default function Home() {
                 setPlaylists(data.body.items);
 
                 const id = JSON.parse(localStorage.getItem("activePlaylistId"));
-                if (id) {
+                if (id && router.pathname === "/") {
                     setActivePlaylistId(id);
                 } else {
                     setActivePlaylistId(data.body.items[0].id);
@@ -28,15 +31,26 @@ export default function Home() {
         }
     }, [session]);
 
+    useEffect(() => {
+        if (router.pathname !== "/") {
+            console.log("test");
+        }
+    }, [])
+
+
+
+
     return (
-        <main className="grid h-screen grid-cols-1 md:grid-cols-[auto_1fr]">
-            <Sidebar playlists={playlists} setActivePlaylistId={setActivePlaylistId} />
-            <Center activePlaylist={playlists.find(playlist => playlist.id === activePlaylistId)} setCurrentSong={setCurrentSong} />
-            <Player currentSong={currentSong} setCurrentSong={setCurrentSong} />
-        </main>
-        // Players
+        <RecoilRoot >
+            <main className="grid h-screen grid-cols-1 md:grid-cols-[auto_1fr]">
+                <Sidebar playlists={playlists} setActivePlaylistId={setActivePlaylistId} />
+                <Center currentSong={currentSong} activePlaylist={playlists.find(playlist => playlist.id === activePlaylistId)} setCurrentSong={setCurrentSong} />
+                <Player currentSong={currentSong} setCurrentSong={setCurrentSong} />
+            </main>
+        </RecoilRoot>
     )
 }
+
 
 export async function getServerSideProps(context) {
     const session = await getSession(context);

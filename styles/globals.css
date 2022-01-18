@@ -7,12 +7,39 @@
     body {
         background: black;
         user-select: none;
+        /* overflow: hidden; */
     }
+    /* width */
+::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: black; 
+  }
+   
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+      background: #555; 
+    }
+    
+    /* Handle on hover */
+    ::-webkit-scrollbar-thumb:hover {
+      background: #888; 
+  }
+  p {
+      @apply max-w-5xl truncate
+  }
 }
 
 @layer components {
+    .song-container * {
+        @apply max-w-[250px] xl:max-w-full
+    }
     .song-container {
-        @apply grid grid-cols-[48px_1fr_1fr_48px] justify-items-start items-center py-4 px-8 mx-6 rounded-md
+        @apply grid grid-cols-[48px_1fr_1fr_48px] justify-items-start items-center 
+        py-4 px-8 mx-6 rounded-md
     }
     .song-container > :not(:nth-child(1), :nth-child(2)) {
         @apply hidden
@@ -27,13 +54,33 @@
     .player-btn-container > * {
         @apply hover:text-white relative
     }
-    /* .player-btn-container > *:hover::before {
-        @apply absolute w-max content-[attr(data-title)] -top-2 -translate-y-full bg-black p-2 rounded-md text-white
+    .player-btn-container > div[data-title]:hover::before {
+        @apply absolute -top-2 -translate-y-full
+        content-[attr(data-title)] 
+        w-max p-2 bg-black text-white rounded-md
     }
-    .player-btn-container > *:hover::before:empty {
-        @apply bg-transparent;
-    } */
+    .player-btn-container > div[data-title]::before {
+        content: "";
+        visibility: hidden;
+    }
+    .player-btn-container > div[data-title]:hover::before {
+        visibility: visible;
+        transition-delay: 500ms
+    }
 
+    .label-wrapper {
+        @apply flex items-center
+        before:border-b-2 before:w-full before:border-primary
+        after:border-b-2 after:w-full after:border-primary
+    }
+
+
+    /* input[type='range']::-webkit-slider-runnable-track {
+        @apply bg-active
+    }
+    input[type='range']::-webkit-slider-thumb {
+        @apply bg-active h-4 w-4
+    } */
 }
 
 @layer utilities {
@@ -44,5 +91,18 @@
     .no-scrollbar {
       -ms-overflow-style: none; /* IE and Edge */
       scrollbar-width: none; /* Firefox */
+    }
+    
+    .text-secondary {
+        @apply text-gray-400
+    }
+    .text-active {
+        @apply text-green-600 hover:text-green-500
+    }
+    .bg-active {
+        @apply bg-green-600
+    }
+    .border-primary {
+        @apply border-gray-700
     }
 }

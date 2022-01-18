@@ -1,11 +1,14 @@
-import { PlayIcon, VolumeOffIcon, VolumeUpIcon, PauseIcon, ReplyIcon, SwitchHorizontalIcon, FastForwardIcon } from "@heroicons/react/solid"
+import { VolumeOffIcon, VolumeUpIcon, ReplyIcon, SwitchHorizontalIcon, FastForwardIcon } from "@heroicons/react/solid"
 import { useCallback, useEffect, useState } from "react";
 import debounce from 'lodash.debounce';
 import useSpotify from "../lib/useSpotify";
+import PlayPause from "../components/PlayPause"
+import { useSetRecoilState } from "recoil";
+import { isPlayState } from "../atoms/playState";
 
 
 const Player = ({ setCurrentSong, currentSong }) => {
-    const [isPlay, setIsPlay] = useState(false);
+    const setIsPlay = useSetRecoilState(isPlayState);
     const [shuffle, setShuffle] = useState(false);
     const [repeat, setRepeat] = useState("off");
     const [volume, setVolumeValue] = useState(50);
@@ -58,22 +61,26 @@ const Player = ({ setCurrentSong, currentSong }) => {
 
     return (
         <div className="grid grid-cols-3 col-span-full 
-        child:space-x-2 items-center h-14 bg-neutral-800 border-gray-700 
+        child:space-x-2 items-center h-16 bg-neutral-800 border-primary 
         border-t-2 px-6 text-gray-300
         "
         >
-            {/* SongInfo */}
+            {/* Left - SongInfo*/}
             <div className="flex player-btn-container items-center">
-                <img src={currentSong?.album?.images[2]?.url} className="w-10 shadow-md aspect-square bg-black" />
-                <div className="text-xs">
-                    <p className="text-white">{currentSong?.name}</p>
-                    <p>{currentSong?.artists?.map(x => x.name).join(", ")}</p>
+                <img className="w-12 shadow-md aspect-square bg-black
+                    origin-bottom-left hover:scale-[4] z-10 duration-500
+                    "
+                    src={currentSong?.album?.images[1]?.url}
+                />
+                <div className="text-base overflow-hidden">
+                    <p className="text-white font-bold  ">{currentSong?.name}</p>
+                    <p className="">{currentSong?.artists?.map(x => x.name).join(", ")}</p>
                 </div>
             </div>
-            {/* Control */}
+            {/* Center - Play */}
             <div className="flex player-btn-container justify-self-center items-center">
                 <div data-title="Shuffle" onClick={() => { spotifyApi.setShuffle(!shuffle); setShuffle(!shuffle) }}>
-                    <SwitchHorizontalIcon className={`w-5 ${shuffle ? "text-green-600" : ""}`} />
+                    <SwitchHorizontalIcon className={`w-5 ${shuffle ? "text-active" : ""}`} />
                 </div>
                 <div data-title="Previous Song" onClick={async () => {
                     await spotifyApi.skipToPrevious();
@@ -82,20 +89,11 @@ const Player = ({ setCurrentSong, currentSong }) => {
                 }>
                     <FastForwardIcon className="w-5 rotate-180" />
                 </div>
-                {isPlay ? (
-                    <div data-title="Pause" onClick={() => { setIsPlay(false); spotifyApi.pause() }}>
-                        <PauseIcon className="w-8" />
-                    </div>
-                ) : (
-                    <div data-title="Play" onClick={() => {
-                        try {
-                            setIsPlay(true);
-                            spotifyApi.play();
-                        } catch (e) {
-                            alert("No Active Device found!")
-                        }
-                    }}><PlayIcon className="w-8" /></div>
-                )}
+                <PlayPause className="w-11" spotifyApi={spotifyApi} onClick={() => {
+                    setIsPlay(true);
+                    spotifyApi.play();
+                }
+                } />
                 <div data-title="Next Song" onClick={async () => {
                     await spotifyApi.skipToNext();
                     setTimeout(getMyPlayingSong, 300);
@@ -104,18 +102,18 @@ const Player = ({ setCurrentSong, currentSong }) => {
                     <FastForwardIcon className="w-5" />
                 </div>
                 <div data-title="Repeat" onClick={() => { spotifyApi.setRepeat(toggleRepeat()); setRepeat(toggleRepeat()) }}>
-                    <ReplyIcon className={`w-5 ${repeat === "track" ? "text-green-600" : ""}`} />
+                    <ReplyIcon className={`w-5 ${repeat === "track" ? "text-active" : ""}`} />
                 </div>
             </div>
-            {/* Volume */}
-            <div className="flex player-btn-container justify-self-end items-center">
-                <div data-title="Volume Down" onClick={() => setVolume(volume - 10)}>
+            {/* Right - Volume */}
+            <div className="flex player-btn-container justify-self-end">
+                <div onClick={() => setVolume(volume - 10)}>
                     <VolumeOffIcon className="w-5" />
                 </div>
-                {/* <div data-title={volume}> */}
-                <input className="w-28 h-[6px]" onChange={e => setVolume(parseInt(e.target.value))} type="range" value={volume} />
-                {/* </div> */}
-                <div data-title="Volume Up" onClick={() => setVolume(volume + 10)}>
+                <div className="flex items-center" data-title={volume}>
+                    <input className="w-28 h-[6px]" onChange={e => setVolume(parseInt(e.target.value))} type="range" value={volume} />
+                </div>
+                <div onClick={() => setVolume(volume + 10)}>
                     <VolumeUpIcon className="w-5" />
                 </div>
             </div>
