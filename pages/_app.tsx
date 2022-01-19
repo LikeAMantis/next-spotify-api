@@ -12,7 +12,7 @@ function MyApp({
     return (
         <>
             <Head>
-                <title>Spotify 2</title>
+                <title>Spotify NEXT</title>
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <SessionProvider session={session}>

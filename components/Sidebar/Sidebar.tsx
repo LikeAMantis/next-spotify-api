@@ -30,11 +30,7 @@ export const Sidebar = ({ playlists, setActivePlaylistId }: Props) => {
                     <Button
                         key={playlist.id}
                         text={playlist.name}
-                        onClick={async () => {
-                            const res = await spotifyApi.getPlaylistTracks(playlist.id);
-                            console.log(res);
-                            setActivePlaylistId(playlist.id);
-                        }}
+                        onClick={() => setActivePlaylistId(playlist.id)}
                     />))
                 }
             </section>

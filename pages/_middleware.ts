@@ -10,8 +10,8 @@ export async function middleware(req: NextRequest) {
         return NextResponse.next();
     }
 
-    if (!token && pathname !== "/api/auth/signin") {
+    if (!token && pathname !== "/login") {
         console.log("Redirect");
-        return NextResponse.redirect("/api/auth/signin");
+        return NextResponse.redirect("/login");
     }
 }

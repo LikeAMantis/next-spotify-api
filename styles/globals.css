@@ -52,7 +52,7 @@
     }
 
     .player-btn-container > * {
-        @apply hover:text-white relative
+        @apply hover:text-white relative cursor-pointer
     }
     .player-btn-container > div[data-title]:hover::before {
         @apply absolute -top-2 -translate-y-full

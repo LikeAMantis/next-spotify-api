@@ -1,4 +1,4 @@
-import { getSession, signIn, useSession } from "next-auth/react";
+import { getSession, useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { Center } from "../components/Center";
 import { Sidebar } from "../components/Sidebar/Sidebar";
@@ -35,17 +35,17 @@ export default function Home() {
         if (router.pathname !== "/") {
             console.log("test");
         }
-    }, [])
+    }, [router])
 
 
 
 
     return (
         <RecoilRoot >
-            <main className="grid h-screen grid-cols-1 md:grid-cols-[auto_1fr]">
+            <main className="grid h-screen grid-cols-1 grid-rows-1 md:grid-cols-[auto_1fr]">
                 <Sidebar playlists={playlists} setActivePlaylistId={setActivePlaylistId} />
-                <Center currentSong={currentSong} activePlaylist={playlists.find(playlist => playlist.id === activePlaylistId)} setCurrentSong={setCurrentSong} />
-                <Player currentSong={currentSong} setCurrentSong={setCurrentSong} />
+                <Center currentSong={currentSong} activePlaylistId={activePlaylistId} setCurrentSong={setCurrentSong} />
+                <Player currentSong={currentSong} setCurrentSong={setCurrentSong} setActivePlaylistId={setActivePlaylistId} />
             </main>
         </RecoilRoot>
     )

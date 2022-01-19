@@ -7,7 +7,7 @@ import { useSetRecoilState } from "recoil";
 import { isPlayState } from "../atoms/playState";
 
 
-const Player = ({ setCurrentSong, currentSong }) => {
+const Player = ({ setCurrentSong, currentSong, setActivePlaylistId }) => {
     const setIsPlay = useSetRecoilState(isPlayState);
     const [shuffle, setShuffle] = useState(false);
     const [repeat, setRepeat] = useState("off");
@@ -70,11 +70,12 @@ const Player = ({ setCurrentSong, currentSong }) => {
                 <img className="w-12 shadow-md aspect-square bg-black
                     origin-bottom-left hover:scale-[4] z-10 duration-500
                     "
+                    onClick={() => setActivePlaylistId(currentSong.album.id)}
                     src={currentSong?.album?.images[1]?.url}
                 />
-                <div className="text-base overflow-hidden">
+                <div className="text-xs lg:text-sm overflow-hidden cursor-default">
                     <p className="text-white font-bold  ">{currentSong?.name}</p>
-                    <p className="">{currentSong?.artists?.map(x => x.name).join(", ")}</p>
+                    <p>{currentSong?.artists?.map(x => x.name).join(", ")}</p>
                 </div>
             </div>
             {/* Center - Play */}
