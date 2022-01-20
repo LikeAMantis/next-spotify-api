@@ -1,12 +1,12 @@
 import { useEffect, useRef, useState } from "react"
-import Avatar from "./Avatar";
-import Song from "./Song";
-import useSpotify from "../lib/useSpotify";
-import PlayPause from "../components/PlayPause";
+import Avatar from "../../../components/Avatar"
+import Song from "../../../components/Song";
+import useSpotify from "../../../lib/useSpotify";
+import PlayPause from "../../../components/PlayPause";
 import { useRecoilState } from "recoil";
-import { playingPlaylistIdState } from "../atoms/playState";
-
-
+import { playingPlaylistIdState } from "../../../atoms/playState";
+import Layout from "../../../components/Layout";
+import { useRouter } from "next/router";
 
 const colors = [
     "from-red-500",
@@ -18,40 +18,39 @@ const colors = [
     "from-pink-500",
 ];
 
+
+
 function randomColor() {
     return colors[Math.floor(Math.random() * colors.length)]
 }
 
-export const Center = ({ activePlaylistId, setCurrentSong, currentSong }) => {
+const Playlist = ({ setCurrentSong, currentSong }) => {
     const [playlist, setPlaylist] = useState(null);
     const spotifyApi = useSpotify();
     const [color, setColor] = useState(colors[0]);
     const [playingPlaylistId, setPlayingPlaylistId] = useRecoilState(playingPlaylistIdState);
-    const ref = useRef();
+    const router = useRouter();
 
     useEffect(() => {
         async function getPlaylist() {
+            if (!router.query.id) return;
 
-            const res = await spotifyApi.getPlaylist(activePlaylistId);
+            const res = await spotifyApi.getPlaylist(router.query.id);
             setPlaylist(res.body);
         }
-        if (activePlaylistId == null) return;
 
         getPlaylist();
         setColor(randomColor());
-        ref.current.scrollTo(0, 0);
-    }, [activePlaylistId]);
+    }, [router]);
 
 
 
     function drawPlaylist() {
-        if (!playlist) return;
         return (
             playlist.tracks.items.map((song, i) => (
                 <Song key={song.track.id} order={i}
-                    activePlaylistId={activePlaylistId}
                     song={song.track}
-                    isActive={currentSong.id === song.track.id}
+                    isActive={currentSong?.id === song.track.id}
                     setCurrentSong={setCurrentSong}
                     spotifyApi={spotifyApi}
                 />)
@@ -60,7 +59,7 @@ export const Center = ({ activePlaylistId, setCurrentSong, currentSong }) => {
     }
 
     return (
-        <div ref={ref} className="relative overflow-y-scroll bg-neutral-900 text-white">
+        <div className="relative overflow-y-scroll background text-white">
             <Avatar />
             {playlist && (
                 <>
@@ -75,7 +74,7 @@ export const Center = ({ activePlaylistId, setCurrentSong, currentSong }) => {
                     <PlayPause className="inline-block w-24 text-active ml-12" spotifyApi={spotifyApi} condition={playlist.id === playingPlaylistId} onClick={async () => {
                         await spotifyApi.play({ context_uri: playlist.uri });
                         setTimeout(async () => {
-                            setPlayingPlaylistId(activePlaylist.id);
+                            setPlayingPlaylistId(router.query.id);
                             const res = await spotifyApi.getMyCurrentPlayingTrack();
                             setCurrentSong(res?.body?.item);
                         }, 300);
@@ -97,3 +96,12 @@ export const Center = ({ activePlaylistId, setCurrentSong, currentSong }) => {
         </div>
     )
 }
+
+
+Playlist.getLayout = function getLayout(page) {
+    return (
+        <Layout>{page}</Layout>
+    )
+}
+
+export default Playlist

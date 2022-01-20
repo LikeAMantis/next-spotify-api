@@ -2,15 +2,17 @@ import millisToMinutesAndSeconds from "../lib/time"
 import { PlayIcon } from "@heroicons/react/solid"
 import { useSetRecoilState } from "recoil";
 import { playingPlaylistIdState } from "../atoms/playState";
+import { useRouter } from "next/router";
 
-const Song = ({ order, song, setCurrentSong, isActive, spotifyApi, activePlaylistId }) => {
+const Song = ({ order, song, setCurrentSong, isActive, spotifyApi }) => {
     const setPlayingPlaylistId = useSetRecoilState(playingPlaylistIdState);
+    const router = useRouter();
 
 
     function play() {
         setCurrentSong(song);
-        spotifyApi.play({ context_uri: "spotify:playlist:" + activePlaylistId, offset: { position: order } })
-        setPlayingPlaylistId(activePlaylistId);
+        spotifyApi.play({ context_uri: "spotify:playlist:" + router.query.id, offset: { position: order } })
+        setPlayingPlaylistId(router.query.id);
     }
 
     return (

@@ -1,15 +1,14 @@
 import { HomeIcon, SearchIcon, LibraryIcon, PlusIcon, LogoutIcon } from "@heroicons/react/outline"
 import { Button } from "./Button"
 import useSpotify from "../../lib/useSpotify";
+import Link from "next/link";
 
 
 interface Props {
     playlists: [],
-    setActivePlaylistId: any,
-    setCurrentSong: Object,
 }
 
-export const Sidebar = ({ playlists, setActivePlaylistId }: Props) => {
+export const Sidebar = ({ playlists }: Props) => {
     const spotifyApi = useSpotify();
 
     return (
@@ -17,7 +16,7 @@ export const Sidebar = ({ playlists, setActivePlaylistId }: Props) => {
             font-bold text-sm lg:text-base 
             md:block"
         >
-            <Button text="Home" icon={<HomeIcon className="w-4 lg:w-5" />} />
+            <Link href="/" scroll={true}><Button text="Home" icon={<HomeIcon className="w-4 lg:w-5" />} /></Link>
             <Button text="Search" icon={<SearchIcon className="w-4 lg:w-5" />} />
             <Button text="Library" icon={<LibraryIcon className="w-4 lg:w-5" />} />
             <Button text="Create Playlist" icon={<PlusIcon className="w-4 lg:w-5" />} />
@@ -27,12 +26,13 @@ export const Sidebar = ({ playlists, setActivePlaylistId }: Props) => {
             {/* Playlists */}
             <section className="space-y-2 font-normal">
                 {playlists.map(playlist => (
-                    <Button
-                        key={playlist.id}
-                        text={playlist.name}
-                        onClick={() => setActivePlaylistId(playlist.id)}
-                    />))
-                }
+                    <Link href={`/playlist/${playlist.id}`} scroll={true}>
+                        <Button
+                            key={playlist.id}
+                            text={playlist.name}
+                        />
+                    </Link>
+                ))}
             </section>
         </div>
     )
