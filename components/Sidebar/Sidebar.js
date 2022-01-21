@@ -1,16 +1,9 @@
-import { HomeIcon, SearchIcon, LibraryIcon, PlusIcon, LogoutIcon } from "@heroicons/react/outline"
+import { HomeIcon, SearchIcon, LibraryIcon, PlusIcon } from "@heroicons/react/outline"
 import { Button } from "./Button"
-import useSpotify from "../../lib/useSpotify";
 import Link from "next/link";
 
 
-interface Props {
-    playlists: [],
-}
-
-export const Sidebar = ({ playlists }: Props) => {
-    const spotifyApi = useSpotify();
-
+export const Sidebar = ({ playlists }) => {
     return (
         <div className="hidden min-w-max shadow-lg overflow-y-scroll no-scrollbar bg-black text-secondary p-5 pb-19 space-y-3
             font-bold text-sm lg:text-base 

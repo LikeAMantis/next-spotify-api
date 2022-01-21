@@ -26,7 +26,14 @@
         "**/*.tsx",
         "pages/_middleware.js",
         "lib/spotify.js",
-        "lib/spotify.js"
+        "lib/spotify.js",
+        "pages/playlist/[id]/index.js",
+        "components/Sidebar/Button.tsx",
+        "components/Sidebar/Sidebar.js",
+        "components/Avatar.js",
+        "components/Layout.js",
+        "components/Player.js",
+        "components/Song.js"
     ],
     "exclude": [
         "node_modules"

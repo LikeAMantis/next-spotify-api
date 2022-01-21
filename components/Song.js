@@ -12,6 +12,8 @@ const Song = ({ order, song, setCurrentSong, isActive, spotifyApi }) => {
     function play() {
         setCurrentSong(song);
         spotifyApi.play({ context_uri: "spotify:playlist:" + router.query.id, offset: { position: order } })
+
+        if (!router.query.id) return;
         setPlayingPlaylistId(router.query.id);
     }
 

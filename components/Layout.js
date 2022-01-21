@@ -1,9 +1,9 @@
 import { getSession, useSession } from "next-auth/react";
 import { Children, cloneElement, useEffect, useState } from "react";
-import { Sidebar } from "../components/Sidebar/Sidebar";
+import { Sidebar } from "./Sidebar/Sidebar";
 import useSpotify from "../lib/useSpotify";
 import useLocalStorage from "../lib/useLocalStorage";
-import Player from "../components/Player";
+import Player from "./Player";
 import { RecoilRoot } from 'recoil';
 
 
@@ -11,11 +11,12 @@ export default function Layout({ children }) {
     const spotifyApi = useSpotify();
     const { data: session } = useSession();
     const [playlists, setPlaylists] = useState([]);
+    const [playlist, setPlaylist] = useState(null);
     const [currentSong, setCurrentSong] = useLocalStorage("currentSong");
 
     useEffect(() => {
         if (spotifyApi.getAccessToken()) {
-            spotifyApi.getUserPlaylists().then((data: any) => {
+            spotifyApi.getUserPlaylists().then((data) => {
                 setPlaylists(data.body.items);
             })
         }
@@ -29,7 +30,7 @@ export default function Layout({ children }) {
                 <RecoilRoot >
                     <main className="grid h-screen grid-cols-1 grid-rows-1 md:grid-cols-[auto_1fr]">
                         <Sidebar playlists={playlists} />
-                        {Children.map(children, child => cloneElement(child, { setCurrentSong, currentSong }))}
+                        {Children.map(children, child => cloneElement(child, { setCurrentSong, playlist, setPlaylist }))}
                         <Player currentSong={currentSong} setCurrentSong={setCurrentSong} />
                     </main>
                 </RecoilRoot>

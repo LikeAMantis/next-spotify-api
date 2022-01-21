@@ -2,7 +2,7 @@ import { VolumeOffIcon, VolumeUpIcon, ReplyIcon, SwitchHorizontalIcon, FastForwa
 import { useCallback, useEffect, useState } from "react";
 import debounce from 'lodash.debounce';
 import useSpotify from "../lib/useSpotify";
-import PlayPause from "../components/PlayPause"
+import PlayPause from "./PlayPause"
 import { useSetRecoilState } from "recoil";
 import { isPlayState } from "../atoms/playState";
 
@@ -39,10 +39,10 @@ const Player = ({ setCurrentSong, currentSong, setActivePlaylistId }) => {
 
 
     const setVolumeDebounced = useCallback(
-        debounce((volume: number) => spotifyApi.setVolume(volume), 300)
+        debounce((volume) => spotifyApi.setVolume(volume), 300)
         , []);
 
-    function setVolume(volume: number) {
+    function setVolume(volume) {
         volume = Math.min(Math.max(volume, 0), 100);
         setVolumeValue(volume);
         setVolumeDebounced(volume);
