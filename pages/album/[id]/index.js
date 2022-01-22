@@ -10,37 +10,37 @@ import { useRouter } from "next/router"
 
 
 
-const Playlist = ({ setCurrentSong, currentSong }) => {
+const Album = ({ setCurrentSong, currentSong }) => {
     const spotifyApi = useSpotify();
     const [playingPlaylistId, setPlayingPlaylistId] = useRecoilState(playingPlaylistIdState);
     const router = useRouter();
-    const [playlist, setPlaylist] = useState(null);
+    const [album, setAlbum] = useState(null);
 
 
     useEffect(() => {
-        async function getPlaylist() {
+        async function getAlbum() {
             if (!router.query.id) return;
 
-            const res = await spotifyApi.getPlaylist(router.query.id);
-            setPlaylist(res.body);
+            const res = await spotifyApi.getAlbum(router.query.id);
+            setAlbum(res.body);
         }
 
-        getPlaylist();
+        getAlbum();
     }, [router]);
 
 
     return (
         <div className="relative overflow-y-scroll background text-white">
-            {playlist && (
+            {album && (
                 <>
                     <Header
-                        type={"PLAYLIST"}
-                        name={playlist.name}
-                        imgRef={playlist.images[0].url}
-                        songNumber={playlist.tracks.total}
+                        type={album.album_type === "single" ? (album.total_tracks > 1 ? "ep" : "single") : "album"}
+                        name={album.name}
+                        imgRef={album.images[0].url}
+                        songNumber={album.total_tracks}
                     />
-                    <PlayPause className="inline-block w-24 text-active ml-12" spotifyApi={spotifyApi} condition={playlist.id === playingPlaylistId} onClick={async () => {
-                        await spotifyApi.play({ context_uri: playlist.uri });
+                    <PlayPause className="inline-block w-24 text-active ml-12" spotifyApi={spotifyApi} condition={album.id === playingPlaylistId} onClick={async () => {
+                        await spotifyApi.play({ context_uri: album.uri });
                         setTimeout(async () => {
                             setPlayingPlaylistId(router.query.id);
                             const res = await spotifyApi.getMyCurrentPlayingTrack();
@@ -48,7 +48,7 @@ const Playlist = ({ setCurrentSong, currentSong }) => {
                         }, 300);
                     }}
                     />
-                    <Songs songs={playlist.tracks.items.map(x => x.track)} spotifyApi={spotifyApi} setCurrentSong={setCurrentSong} currentSong={currentSong} uriType="playlist" />
+                    <Songs songs={album.tracks.items} spotifyApi={spotifyApi} setCurrentSong={setCurrentSong} currentSong={currentSong} uriType="album" />
                 </>
             )}
         </div>
@@ -56,10 +56,10 @@ const Playlist = ({ setCurrentSong, currentSong }) => {
 }
 
 
-Playlist.getLayout = function getLayout(page) {
+Album.getLayout = function getLayout(page) {
     return (
         <Layout>{page}</Layout>
     )
 }
 
-export default Playlist
+export default Album

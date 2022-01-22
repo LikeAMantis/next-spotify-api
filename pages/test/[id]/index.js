@@ -1,8 +1,14 @@
 import { useRouter } from "next/router"
-import { isContext } from "vm";
+import { useEffect } from "react";
 
 const index = ({ post }) => {
     const router = useRouter();
+
+
+    useEffect() {
+        console.log(router);
+        console.log(router.query);
+    }
 
     return (
         <div className="text-white">

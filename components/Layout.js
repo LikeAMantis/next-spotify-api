@@ -11,7 +11,6 @@ export default function Layout({ children }) {
     const spotifyApi = useSpotify();
     const { data: session } = useSession();
     const [playlists, setPlaylists] = useState([]);
-    const [playlist, setPlaylist] = useState(null);
     const [currentSong, setCurrentSong] = useLocalStorage("currentSong");
 
     useEffect(() => {
@@ -30,14 +29,12 @@ export default function Layout({ children }) {
                 <RecoilRoot >
                     <main className="grid h-screen grid-cols-1 grid-rows-1 md:grid-cols-[auto_1fr]">
                         <Sidebar playlists={playlists} />
-                        {Children.map(children, child => cloneElement(child, { setCurrentSong, playlist, setPlaylist }))}
+                        {Children.map(children, child => cloneElement(child, { setCurrentSong, currentSong }))}
                         <Player currentSong={currentSong} setCurrentSong={setCurrentSong} />
                     </main>
                 </RecoilRoot>
-            )
-            }
+            )}
         </>
-
     )
 }
 

@@ -14,14 +14,14 @@ export const Sidebar = ({ playlists }) => {
             <Button text="Library" icon={<LibraryIcon className="w-4 lg:w-5" />} />
             <Button text="Create Playlist" icon={<PlusIcon className="w-4 lg:w-5" />} />
 
-            <div className="label-wrapper"><h2>Playlists</h2></div>
-
+            <div className="label-wrapper">
+                <h3>Playlists</h3>
+            </div>
             {/* Playlists */}
             <section className="space-y-2 font-normal">
                 {playlists.map(playlist => (
-                    <Link href={`/playlist/${playlist.id}`} scroll={true}>
+                    <Link key={playlist.id} href={`/playlist/${playlist.id}`} scroll={true}>
                         <Button
-                            key={playlist.id}
                             text={playlist.name}
                         />
                     </Link>

@@ -3,15 +3,20 @@ import { PlayIcon } from "@heroicons/react/solid"
 import { useSetRecoilState } from "recoil";
 import { playingPlaylistIdState } from "../atoms/playState";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
-const Song = ({ order, song, setCurrentSong, isActive, spotifyApi }) => {
+const Song = ({ order, song, setCurrentSong, isActive, spotifyApi, uriType, uris }) => {
     const setPlayingPlaylistId = useSetRecoilState(playingPlaylistIdState);
     const router = useRouter();
 
 
     function play() {
         setCurrentSong(song);
-        spotifyApi.play({ context_uri: "spotify:playlist:" + router.query.id, offset: { position: order } })
+        if (uriType) {
+            spotifyApi.play({ context_uri: `spotify:${uriType}:` + router.query.id, offset: { position: order } })
+        } else if (uris) {
+            spotifyApi.play({ uris, offset: { position: order } })
+        }
 
         if (!router.query.id) return;
         setPlayingPlaylistId(router.query.id);
@@ -24,17 +29,17 @@ const Song = ({ order, song, setCurrentSong, isActive, spotifyApi }) => {
         >
             <p className="group-hover:invisible visible text-right w-full pr-4">{order + 1}</p>
             <div className="flex space-x-4 items-center">
-                <img className="w-12 cursor-pointer" src={song.album.images[2]?.url} />
+                {song.album && <img className="w-12 cursor-pointer shadow-sm shadow-black" src={song.album?.images[2]?.url} />}
                 <div>
                     <PlayIcon
                         className="absolute cursor-pointer hover:text-white hidden group-hover:block left-10 w-6 -translate-y-1/2 top-1/2"
                         onClick={play}
                     />
                     <p className={"text-white" + (isActive ? " text-active" : "")}>{song.name}</p>
-                    <p className="">{song.artists.map(x => x.name).join(", ")}</p>
+                    <Link replace={true} href={`/artist/${song?.artists[0]?.id}`}><p className="cursor-pointer">{song.artists.map(x => x.name).join(", ")}</p></Link>
                 </div>
             </div>
-            <p className="cursor-pointer">{song.album.name}</p>
+            {song.album && <Link replace={true} href={`/album/${song.album.id}`}><p className="cursor-pointer">{song.album.name}</p></Link>}
             <p className="justify-self-end">{millisToMinutesAndSeconds(song.duration_ms)}</p>
         </div>
     )

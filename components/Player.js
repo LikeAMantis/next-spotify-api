@@ -5,13 +5,14 @@ import useSpotify from "../lib/useSpotify";
 import PlayPause from "./PlayPause"
 import { useSetRecoilState } from "recoil";
 import { isPlayState } from "../atoms/playState";
+import Link from "next/link";
 
 
-const Player = ({ setCurrentSong, currentSong, setActivePlaylistId }) => {
+const Player = ({ setCurrentSong, currentSong }) => {
     const setIsPlay = useSetRecoilState(isPlayState);
     const [shuffle, setShuffle] = useState(false);
     const [repeat, setRepeat] = useState("off");
-    const [volume, setVolumeValue] = useState(50);
+    const [volume, setVolumeValue] = useState(100);
     const spotifyApi = useSpotify();
 
     useEffect(() => {
@@ -67,15 +68,16 @@ const Player = ({ setCurrentSong, currentSong, setActivePlaylistId }) => {
         >
             {/* Left - SongInfo*/}
             <div className="flex player-btn-container items-center">
-                <img className="w-12 shadow-md aspect-square bg-black
+                <Link replace={true} href={`/album/${currentSong?.album?.id}`}>
+                    <img className="w-12 shadow-sm shadow-black aspect-square bg-black
                     origin-bottom-left hover:scale-[4] z-10 duration-500
                     "
-                    onClick={() => setActivePlaylistId(currentSong.album.id)}
-                    src={currentSong?.album?.images[1]?.url}
-                />
+                        src={currentSong?.album?.images[1]?.url}
+                    />
+                </Link>
                 <div className="text-xs lg:text-sm overflow-hidden cursor-default">
                     <p className="text-white font-bold  ">{currentSong?.name}</p>
-                    <p>{currentSong?.artists?.map(x => x.name).join(", ")}</p>
+                    <Link replace={true} href={`/artist/${currentSong?.artists[0]?.id}`}><p className="cursor-pointer">{currentSong?.artists?.map(x => x.name).join(", ")}</p></Link>
                 </div>
             </div>
             {/* Center - Play */}

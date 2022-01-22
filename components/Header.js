@@ -28,11 +28,11 @@ const Header = ({ songNumber, type, name, imgRef }) => {
     return (
         <div className={`flex items-end h-[30vw] min-h-[300px] max-h-[480px] bg-gradient-to-b to-transparent ${color} p-12`}>
             <Avatar />
-            {imgRef && <img className="w-auto h-[90%] aspect-square object-cover drop-shadow-xxl" src={imgRef} />}
+            {imgRef && <img className="w-auto h-[90%] aspect-square object-cover shadow-lg shadow-black" src={imgRef} />}
             <div className="ml-5 space-y-2 lg:space-y-4">
-                <p>{type}</p>
-                <h1 className="text-4xl lg:text-6xl font-bold">{name}</h1>
-                <p className="text-xs">{songNumber}</p>
+                <p className="text-base lg:text-xl font-bold uppercase">{type}</p>
+                <h1>{name}</h1>
+                {songNumber && <p className="text-xs">{songNumber + (songNumber === 1 ? " Song" : " Songs")}</p>}
             </div>
         </div>
     )

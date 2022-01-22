@@ -1,7 +1,9 @@
+import Link from "next/link"
+
 const test = ({ posts }) => {
     return (
         <div data-title="hey" className="test bg-blue-400">
-            {posts.map(post => <li>{post.title}</li>)}
+            {posts.map(post => <Link href={"/test/1"} as={"bla/1"}><li>{post.title}</li></Link>)}
         </div>
     )
 }
