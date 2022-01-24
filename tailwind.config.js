@@ -7,14 +7,7 @@ module.exports = {
         './components/**/*.{js,ts,jsx,tsx}',
     ],
     theme: {
-        extend: {
-            textColor: {
-                secondary: "var(--text-secondary)",
-            },
-            borderColor: {
-                default: "var(--border-gray-default)",
-            }
-        },
+        extend: {},
     },
     plugins: [
         plugin(function ({ addVariant }) {

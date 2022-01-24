@@ -2,12 +2,11 @@ import { useEffect, useRef, useState } from "react"
 import Header from "../../../components/Header"
 import Songs from "../../../components/Songs"
 import useSpotify from "../../../lib/useSpotify"
-import PlayPause from "../../../components/PlayPause"
 import { useRecoilState } from "recoil"
 import { playingPlaylistIdState } from "../../../atoms/playState"
 import Layout from "../../../components/Layout"
 import { useRouter } from "next/router"
-
+import PlayPause from "../../../components/PlayPause"
 
 
 const Playlist = ({ setCurrentSong, currentSong }) => {
@@ -15,6 +14,7 @@ const Playlist = ({ setCurrentSong, currentSong }) => {
     const [playingPlaylistId, setPlayingPlaylistId] = useRecoilState(playingPlaylistIdState);
     const router = useRouter();
     const [playlist, setPlaylist] = useState(null);
+    const ref = useRef();
 
 
     useEffect(() => {
@@ -30,7 +30,7 @@ const Playlist = ({ setCurrentSong, currentSong }) => {
 
 
     return (
-        <div className="relative overflow-y-scroll background text-white">
+        <div ref={ref} className="relative overflow-y-scroll background text-white">
             {playlist && (
                 <>
                     <Header
@@ -39,16 +39,29 @@ const Playlist = ({ setCurrentSong, currentSong }) => {
                         imgRef={playlist.images[0].url}
                         songNumber={playlist.tracks.total}
                     />
-                    <PlayPause className="inline-block w-24 text-active ml-12" spotifyApi={spotifyApi} condition={playlist.id === playingPlaylistId} onClick={async () => {
-                        await spotifyApi.play({ context_uri: playlist.uri });
-                        setTimeout(async () => {
-                            setPlayingPlaylistId(router.query.id);
-                            const res = await spotifyApi.getMyCurrentPlayingTrack();
-                            setCurrentSong(res?.body?.item);
-                        }, 300);
-                    }}
+                    <Songs
+                        songs={playlist.tracks.items.map(x => x.track)}
+                        spotifyApi={spotifyApi}
+                        setCurrentSong={setCurrentSong}
+                        currentSong={currentSong}
+                        playlist={playlist}
+                        playingPlaylistId={playingPlaylistId}
+                        uriType="playlist"
+                        container={ref}
+                        playPauseBtn={isSticky => (
+                            <PlayPause className={`inline-block text-active ml-12 transition-all duration-150 w-24 ${isSticky ? "w-16 mt-2" : "w-24"}`} spotifyApi={spotifyApi} condition={playlist.id === playingPlaylistId} onClick={async () => {
+                                await spotifyApi.play({ context_uri: playlist.uri });
+                                setTimeout(async () => {
+                                    setPlayingPlaylistId(router.query.id);
+                                    const res = await spotifyApi.getMyCurrentPlayingTrack();
+                                    setCurrentSong(res?.body?.item);
+                                }, 300);
+                            }}
+                            />
+                        )
+
+                        }
                     />
-                    <Songs songs={playlist.tracks.items.map(x => x.track)} spotifyApi={spotifyApi} setCurrentSong={setCurrentSong} currentSong={currentSong} uriType="playlist" />
                 </>
             )}
         </div>
