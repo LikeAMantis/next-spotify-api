@@ -3,23 +3,29 @@ import { useRecoilState } from "recoil";
 import { isPlayState } from "../atoms/playState";
 
 
-const PlayPause = ({ className, spotifyApi, onClick, condition = true }) => {
+const PlayPause = ({ className, spotifyApi, onClick, playlistName, isSticky, condition = true }) => {
     const [isPlay, setIsPlay] = useRecoilState(isPlayState);
+
+    function handlePlay() {
+        try {
+            onClick();
+        } catch (e) {
+            alert("No Active Device found!")
+        }
+    }
 
     return (
         <>
             {isPlay && condition ? (
-                <div data-title="Pause" onClick={() => { setIsPlay(false); spotifyApi.pause() }}>
+                <div className="flex items-center space-x-2 text-white" data-title="Pause" onClick={() => { setIsPlay(false); spotifyApi.pause() }}>
                     <PauseIcon className={className} />
+                    <h2 className={`transition-opacity duration-150 ${isSticky ? "opacity-100" : "opacity-0"}`}>{playlistName}</h2>
                 </div>
             ) : (
-                <div data-title="Play" onClick={async () => {
-                    try {
-                        onClick();
-                    } catch (e) {
-                        alert("No Active Device found!")
-                    }
-                }}><PlayIcon className={className} /></div>
+                <div className="flex items-center  space-x-2 text-white" data-title="Play" onClick={handlePlay}>
+                    <PlayIcon className={className} />
+                    <h2 className={`transition-opacity duration-150 ${isSticky ? "opacity-100" : "opacity-0"}`}>{playlistName}</h2>
+                </div>
             )}
         </>
     )

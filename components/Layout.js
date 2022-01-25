@@ -2,7 +2,6 @@ import { getSession, useSession } from "next-auth/react";
 import { Children, cloneElement, useEffect, useState } from "react";
 import { Sidebar } from "./Sidebar/Sidebar";
 import useSpotify from "../lib/useSpotify";
-import useLocalStorage from "../lib/useLocalStorage";
 import Player from "./Player";
 import { RecoilRoot } from 'recoil';
 
@@ -11,8 +10,7 @@ export default function Layout({ children }) {
     const spotifyApi = useSpotify();
     const { data: session } = useSession();
     const [playlists, setPlaylists] = useState([]);
-    const [currentSong, setCurrentSong] = useLocalStorage("currentSong");
-
+    const [currentSong, setCurrentSong] = useState(null);
     useEffect(() => {
         if (spotifyApi.getAccessToken()) {
             spotifyApi.getUserPlaylists().then((data) => {
@@ -20,7 +18,6 @@ export default function Layout({ children }) {
             })
         }
     }, [session]);
-
 
 
     return (

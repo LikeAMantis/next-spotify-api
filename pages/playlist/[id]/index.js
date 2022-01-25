@@ -28,6 +28,15 @@ const Playlist = ({ setCurrentSong, currentSong }) => {
         getPlaylist();
     }, [router]);
 
+    async function handlePlayPlause() {
+        await spotifyApi.play({ context_uri: playlist.uri });
+        setTimeout(async () => {
+            setPlayingPlaylistId(router.query.id);
+            const res = await spotifyApi.getMyCurrentPlayingTrack();
+            setCurrentSong(res?.body?.item);
+        }, 300);
+    }
+
 
     return (
         <div ref={ref} className="relative overflow-y-scroll background text-white">
@@ -48,19 +57,17 @@ const Playlist = ({ setCurrentSong, currentSong }) => {
                         playingPlaylistId={playingPlaylistId}
                         uriType="playlist"
                         container={ref}
-                        playPauseBtn={isSticky => (
-                            <PlayPause className={`inline-block text-active ml-12 transition-all duration-150 w-24 ${isSticky ? "w-16 mt-2" : "w-24"}`} spotifyApi={spotifyApi} condition={playlist.id === playingPlaylistId} onClick={async () => {
-                                await spotifyApi.play({ context_uri: playlist.uri });
-                                setTimeout(async () => {
-                                    setPlayingPlaylistId(router.query.id);
-                                    const res = await spotifyApi.getMyCurrentPlayingTrack();
-                                    setCurrentSong(res?.body?.item);
-                                }, 300);
-                            }}
+                        PlayPauseBtn={({ isSticky }) => (
+                            <PlayPause
+                                className={`inline-block text-active ml-12 transition-all duration-150 w-24 
+                                    ${isSticky ? "w-14 mt-2" : "w-24"}`}
+                                spotifyApi={spotifyApi}
+                                condition={playlist.id === playingPlaylistId}
+                                onClick={handlePlayPlause}
+                                isSticky={isSticky}
+                                playlistName={playlist.name}
                             />
-                        )
-
-                        }
+                        )}
                     />
                 </>
             )}
