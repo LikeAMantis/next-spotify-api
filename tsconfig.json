@@ -28,12 +28,15 @@
         "lib/spotify.js",
         "lib/spotify.js",
         "pages/playlist/[id]/index.js",
-        "components/Sidebar/Button.tsx",
+        "components/Sidebar/Button.js",
         "components/Sidebar/Sidebar.js",
         "components/Avatar.js",
         "components/Layout.js",
         "components/Player.js",
-        "components/Song.js"
+        "components/Song.js",
+        "pages/login.js",
+        "pages/index.js",
+        "pages/_app.js"
     ],
     "exclude": [
         "node_modules"

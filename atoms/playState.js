@@ -9,3 +9,8 @@ export const playingPlaylistIdState = atom({
     key: "playingPlaylistIdState",
     default: null,
 });
+
+export const progressTimeState = atom({
+    key: "progressTimeState",
+    default: 0,
+});

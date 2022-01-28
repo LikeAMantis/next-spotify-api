@@ -36,10 +36,10 @@ const Songs = ({ songs, playlist, playingPlaylistId, container, PlayPauseBtn, ..
     }
 
     return (
-        <div className="text-secondary bg-inherit">
-            <div ref={ref} className="sticky top-[-1px] z-10 bg-inherit">
+        <div className="relative -top-10 text-secondary transparent">
+            <div ref={ref} className={`sticky flex flex-col justify-end -top-1 z-10 bg-inherit h-28 ${isSticky ? "shadow-md shadow-black background" : ""}`}>
                 <PlayPauseBtn isSticky={isSticky} />
-                <div className="song-container border-primary border-b-[1px] pb-1 mb-4 uppercase font-bold text-xs rounded-none">
+                <div className={`song-container border-primary pb-1 mb-1 uppercase font-bold text-xs rounded-none ${!isSticky ? "border-b" : ""}`}>
                     <h3 className="w-full text-right pr-4">#</h3>
                     <h3>Title</h3>
                     {props.uriType !== "album" && <h3>Album</h3>}

@@ -1,7 +1,6 @@
-import { useEffect, useRef, useState } from "react"
+import { forwardRef, useEffect, useRef, useState } from "react"
 import Header from "../../../components/Header"
 import Songs from "../../../components/Songs"
-import useSpotify from "../../../lib/useSpotify"
 import PlayPause from "../../../components/PlayPause"
 import { useRecoilState } from "recoil"
 import { playingPlaylistIdState } from "../../../atoms/playState"
@@ -9,13 +8,10 @@ import Layout from "../../../components/Layout"
 import { useRouter } from "next/router"
 
 
-
-const Album = ({ setCurrentSong, currentSong }) => {
-    const spotifyApi = useSpotify();
+const Album = forwardRef(({ setCurrentSong, currentSong, spotifyApi }, ref) => {
     const [playingPlaylistId, setPlayingPlaylistId] = useRecoilState(playingPlaylistIdState);
     const router = useRouter();
     const [album, setAlbum] = useState(null);
-    const ref = useRef();
 
 
     useEffect(() => {
@@ -53,12 +49,13 @@ const Album = ({ setCurrentSong, currentSong }) => {
                         songs={album.tracks.items.map(song => ({ ...song, album: { images: album.images } }))}
                         spotifyApi={spotifyApi}
                         setCurrentSong={setCurrentSong}
-                        currentSong={currentSong}
+                        currentSong={{ ...currentSong, album: album.images }}
                         uriType="album"
                         container={ref}
+                        showCover={false}
                         PlayPauseBtn={({ isSticky }) => (
                             <PlayPause
-                                className={`inline-block text-active ml-12 transition-all duration-150 w-24 
+                                className={`inline-block text-active ml-12 transition-all duration-150
                                     ${isSticky ? "w-14 mt-2" : "w-24"}`}
                                 spotifyApi={spotifyApi}
                                 condition={album.id === playingPlaylistId}
@@ -72,8 +69,7 @@ const Album = ({ setCurrentSong, currentSong }) => {
             )}
         </div>
     )
-}
-
+})
 
 Album.getLayout = function getLayout(page) {
     return (

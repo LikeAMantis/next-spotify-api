@@ -1,11 +1,4 @@
-interface Props {
-    text: string
-    icon?: JSX.Element,
-    onClick?: () => {},
-    className?: string,
-}
-
-export const Button = ({ text, icon, onClick, className }: Props) => {
+export const Button = ({ text, icon, onClick, className }) => {
     return (
         <button
             className={"flex items-center hover:text-white space-x-2 cursor-pointer truncate" + className}

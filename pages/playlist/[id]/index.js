@@ -1,7 +1,6 @@
-import { useEffect, useRef, useState } from "react"
+import { forwardRef, useEffect, useRef, useState } from "react"
 import Header from "../../../components/Header"
 import Songs from "../../../components/Songs"
-import useSpotify from "../../../lib/useSpotify"
 import { useRecoilState } from "recoil"
 import { playingPlaylistIdState } from "../../../atoms/playState"
 import Layout from "../../../components/Layout"
@@ -9,13 +8,10 @@ import { useRouter } from "next/router"
 import PlayPause from "../../../components/PlayPause"
 
 
-const Playlist = ({ setCurrentSong, currentSong }) => {
-    const spotifyApi = useSpotify();
+const Playlist = forwardRef(({ setCurrentSong, currentSong, spotifyApi }, ref) => {
     const [playingPlaylistId, setPlayingPlaylistId] = useRecoilState(playingPlaylistIdState);
     const router = useRouter();
     const [playlist, setPlaylist] = useState(null);
-    const ref = useRef();
-
 
     useEffect(() => {
         async function getPlaylist() {
@@ -42,6 +38,7 @@ const Playlist = ({ setCurrentSong, currentSong }) => {
         <div ref={ref} className="relative overflow-y-scroll background text-white">
             {playlist && (
                 <>
+
                     <Header
                         type={"PLAYLIST"}
                         name={playlist.name}
@@ -59,7 +56,7 @@ const Playlist = ({ setCurrentSong, currentSong }) => {
                         container={ref}
                         PlayPauseBtn={({ isSticky }) => (
                             <PlayPause
-                                className={`inline-block text-active ml-12 transition-all duration-150 w-24 
+                                className={`inline-block text-active ml-12 transition-all duration-150
                                     ${isSticky ? "w-14 mt-2" : "w-24"}`}
                                 spotifyApi={spotifyApi}
                                 condition={playlist.id === playingPlaylistId}
@@ -73,7 +70,7 @@ const Playlist = ({ setCurrentSong, currentSong }) => {
             )}
         </div>
     )
-}
+})
 
 
 Playlist.getLayout = function getLayout(page) {

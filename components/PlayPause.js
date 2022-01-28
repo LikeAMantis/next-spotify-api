@@ -16,15 +16,19 @@ const PlayPause = ({ className, spotifyApi, onClick, playlistName, isSticky, con
 
     return (
         <>
-            {isPlay && condition ? (
-                <div className="flex items-center space-x-2 text-white" data-title="Pause" onClick={() => { setIsPlay(false); spotifyApi.pause() }}>
-                    <PauseIcon className={className} />
-                    <h2 className={`transition-opacity duration-150 ${isSticky ? "opacity-100" : "opacity-0"}`}>{playlistName}</h2>
+            {(isPlay && condition) ? (
+                <div className="flex items-center text-white" data-title="Pause" >
+                    <PauseIcon className={"hover:scale-110 cursor-pointer " + className}
+                        onClick={() => { setIsPlay(false); spotifyApi.pause() }}
+                    />
+                    <h2 className={`transition-opacity absolute left-28 duration-200 ${isSticky ? "opacity-100" : "opacity-0"}`}>{playlistName}</h2>
                 </div>
             ) : (
-                <div className="flex items-center  space-x-2 text-white" data-title="Play" onClick={handlePlay}>
-                    <PlayIcon className={className} />
-                    <h2 className={`transition-opacity duration-150 ${isSticky ? "opacity-100" : "opacity-0"}`}>{playlistName}</h2>
+                <div className="flex items-center  text-white" data-title="Play">
+                    <PlayIcon className={"hover:scale-110 cursor-pointer " + className}
+                        onClick={handlePlay}
+                    />
+                    <h2 className={`transition-opacity absolute left-28 duration-200 ${isSticky ? "opacity-100" : "opacity-0"}`}>{playlistName}</h2>
                 </div>
             )}
         </>
