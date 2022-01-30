@@ -8,7 +8,7 @@ import Layout from "../../../components/Layout"
 import { useRouter } from "next/router"
 
 
-const Album = forwardRef(({ setCurrentSong, currentSong, spotifyApi }, ref) => {
+const Album = forwardRef(({ setCurrentSong, currentSong, spotifyApi, className }, ref) => {
     const [playingPlaylistId, setPlayingPlaylistId] = useRecoilState(playingPlaylistIdState);
     const router = useRouter();
     const [album, setAlbum] = useState(null);
@@ -36,7 +36,7 @@ const Album = forwardRef(({ setCurrentSong, currentSong, spotifyApi }, ref) => {
 
 
     return (
-        <div ref={ref} className="relative overflow-y-scroll background text-white">
+        <div ref={ref} className={`center ${className}`} >
             {album && (
                 <>
                     <Header

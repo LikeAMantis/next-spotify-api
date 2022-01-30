@@ -145,7 +145,7 @@ const Player = ({ setCurrentSong, currentSong, spotifyApi }) => {
                     {currentSong && (
                         <Link href={`/album/${currentSong?.album?.id}`}>
                             <img className="w-12 shadow-sm shadow-black aspect-square bg-black
-                            origin-bottom-left hover:scale-[4] z-10 duration-500
+                            origin-bottom-left hover:scale-[4] duration-1000 z-10 hover:circle-in-bottom-left
                             "
                                 src={currentSong?.album?.images[1]?.url}
                             />
@@ -160,7 +160,7 @@ const Player = ({ setCurrentSong, currentSong, spotifyApi }) => {
 
                 {/* Center - Play */}
                 <div className="flex flex-col items-center justify-center gap-1">
-                    <div className="flex player-btn-container justify-self-center items-center justify-center gap-2">
+                    <div className="flex player-btn-container justify-self-center items-center justify-center gap-1 md:gap-2">
                         <div data-title="Shuffle" onClick={() => { spotifyApi.setShuffle(!shuffle); setShuffle(!shuffle) }}>
                             <ShuffleIcon className={`${shuffle ? "text-active" : ""}`} />
                         </div>

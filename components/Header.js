@@ -25,7 +25,7 @@ const Header = ({ songNumber, type, name, imgRef, className }) => {
     }, [router])
 
     return (
-        <div className={`flex items-end h-[30vw] min-h-[400px] max-h-[580px] bg-gradient-to-b to-transparent pb-24 p-12 ${color} ${className}`}>
+        <div className={`flex items-end h-[30vw] min-h-[400px] bg-gradient-to-b to-transparent pb-24 p-12 ${color} ${className}`}>
             <Avatar />
             {imgRef && <img className="w-auto h-[90%] aspect-square object-cover shadow-lg shadow-black" src={imgRef} />}
             <div className="ml-5 space-y-2 lg:space-y-4">

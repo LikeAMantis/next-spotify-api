@@ -10,7 +10,17 @@ module.exports = {
         extend: {
             colors: {
                 gray: colors.gray
+            },
+            animation: {
+                fadeIn: "fadeIn 500ms ease-out forwards"
+            },
+            keyframes: {
+                fadeIn: {
+                    from: { opacity: 0 },
+                    to: { opacity: 1 },
+                }
             }
+
         },
     },
     plugins: [

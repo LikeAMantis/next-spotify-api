@@ -1,13 +1,14 @@
 import millisToMinutesAndSeconds from "../lib/time"
 import { PlayIcon } from "@heroicons/react/solid"
-import { useSetRecoilState } from "recoil";
-import { playingPlaylistIdState } from "../atoms/playState";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { isPlayState, playingPlaylistIdState } from "../atoms/playState";
 import { useRouter } from "next/router";
 import Link from "next/link";
 
 
 const Song = ({ order, song, setCurrentSong, isActive, spotifyApi, uriType, uris, showCover = true }) => {
     const setPlayingPlaylistId = useSetRecoilState(playingPlaylistIdState);
+    const isPlay = useRecoilValue(isPlayState);
     const router = useRouter();
 
     async function play() {
@@ -30,12 +31,12 @@ const Song = ({ order, song, setCurrentSong, isActive, spotifyApi, uriType, uris
 
     return (
         <div
-            className={"song-container group items-center not:bg-blue-700:hover relative hover:bg-neutral-800 hover:text-white" + (isActive ? " font-bold" : "")}
+            className={`song-container group items-center not:bg-blue-700:hover relative hover:bg-neutral-800 hover:text-white ${isActive && isPlay ? "font-bold animate-pulse" : ""}`}
             onDoubleClick={play}
         >
             <p className="group-hover:invisible visible text-right w-full pr-4">{order + 1}</p>
             <div className="flex space-x-4 items-center">
-                {showCover && <img className="w-12 cursor-pointer shadow-sm shadow-black" src={song.album?.images[2]?.url} />}
+                {showCover && <Link href={`/album/${song.album.id}`}><img className="w-12 cursor-pointer shadow-sm shadow-black" src={song.album?.images[2]?.url} /></Link>}
                 <div>
                     <PlayIcon
                         className="absolute cursor-pointer hover:text-white hidden group-hover:block left-10 w-6 -translate-y-1/2 top-1/2"

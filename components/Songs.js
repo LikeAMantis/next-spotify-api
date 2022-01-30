@@ -43,7 +43,7 @@ const Songs = ({ songs, playlist, playingPlaylistId, container, PlayPauseBtn, ..
                     <h3 className="w-full text-right pr-4">#</h3>
                     <h3>Title</h3>
                     {props.uriType !== "album" && <h3>Album</h3>}
-                    <h3 className="justify-self-end">Duration</h3>
+                    <h3 className="justify-self-end w-max">Duration</h3>
                 </div>
             </div>
             <div>

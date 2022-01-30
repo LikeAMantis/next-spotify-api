@@ -7,7 +7,7 @@ import PlayPause from "../components/PlayPause";
 import { useRecoilState } from "recoil";
 import { playingPlaylistIdState } from "../atoms/playState";
 
-const Home = forwardRef(({ setCurrentSong, currentSong, spotifyApi }, ref) => {
+const Home = forwardRef(({ setCurrentSong, currentSong, spotifyApi, className }, ref) => {
     const [recentlyPlayedTracks, setRecentlyPlayedTracks] = useState(null);
     const [playingPlaylistId, setPlayingPlaylistId] = useRecoilState(playingPlaylistIdState);
 
@@ -30,7 +30,7 @@ const Home = forwardRef(({ setCurrentSong, currentSong, spotifyApi }, ref) => {
     }
 
     return (
-        <div ref={ref} className="relative overflow-y-scroll background text-white">
+        <div ref={ref} className={`center ${className}`} >
             <Header className="max-h-0" type="Home" name="Your Recently Played Tracks" />
             {recentlyPlayedTracks && (
                 <Songs

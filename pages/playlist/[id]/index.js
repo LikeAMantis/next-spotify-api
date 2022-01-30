@@ -6,9 +6,11 @@ import { playingPlaylistIdState } from "../../../atoms/playState"
 import Layout from "../../../components/Layout"
 import { useRouter } from "next/router"
 import PlayPause from "../../../components/PlayPause"
+import MenuOpenIcon from '@mui/icons-material/MenuOpen';
 
 
-const Playlist = forwardRef(({ setCurrentSong, currentSong, spotifyApi }, ref) => {
+
+const Playlist = forwardRef(({ setCurrentSong, currentSong, spotifyApi, className }, ref) => {
     const [playingPlaylistId, setPlayingPlaylistId] = useRecoilState(playingPlaylistIdState);
     const router = useRouter();
     const [playlist, setPlaylist] = useState(null);
@@ -35,10 +37,9 @@ const Playlist = forwardRef(({ setCurrentSong, currentSong, spotifyApi }, ref) =
 
 
     return (
-        <div ref={ref} className="relative overflow-y-scroll background text-white">
+        <div ref={ref} className={`center ${className}`} >
             {playlist && (
                 <>
-
                     <Header
                         type={"PLAYLIST"}
                         name={playlist.name}

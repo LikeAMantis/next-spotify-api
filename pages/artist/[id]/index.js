@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import ArtistCategory from "../../../components/ArtistCategory";
 
 
-export default function Artist({ spotifyApi }) {
+export default function Artist({ spotifyApi, className }) {
     const router = useRouter();
     const [artist, setArtist] = useState(null);
     const [albums, setAlbums] = useState([]);
@@ -16,7 +16,7 @@ export default function Artist({ spotifyApi }) {
     }, [router])
 
     return (
-        <div className="relative overflow-y-scroll overflow-x-hidden background text-white">
+        <div className={`center ${className}`}>
             <Header type="Artist" name={artist?.name} imgRef={artist?.images[0]?.url}></Header>
             <div className="p-14 space-y-12 divide-y divide-gray-700">
                 <ArtistCategory titel="Albums" albums={albums.filter(album => album.album_type === "album")} />
