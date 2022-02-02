@@ -7,7 +7,7 @@
     body {
         background: black;
         user-select: none;
-        /* overflow: hidden; */
+        overflow: hidden;
     }
     h1 {
         @apply text-4xl xl:text-6xl font-bold;
@@ -48,6 +48,8 @@
 }
 
 @layer components {
+
+
     .song-container {
         @apply gap-2
     }
@@ -107,4 +109,16 @@
     .bg-active { @apply bg-green-600 } 
     .border-primary { @apply border-gray-700 } 
     .background { @apply bg-neutral-900 }
+
+    .center {
+        @apply relative overflow-y-scroll background break-all text-white md:block
+    }
+}
+
+.transisition-container { position: relative; }
+.target.active { visibility: hidden; }
+.target~* {
+    position: relative;
+    left: 0;
+    transition: left 500ms;
 }

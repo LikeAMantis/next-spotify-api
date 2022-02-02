@@ -209,7 +209,7 @@ const Player = ({ setCurrentSong, currentSong, spotifyApi }) => {
 
 
                 {/* Right - Volume */}
-                <div className="flex player-btn-container justify-self-end items-center">
+                <div className="flex player-btn-container justify-self-end items-center relative">
                     <div onClick={() => setVolume(volume - 10)}>
                         <VolumeOffIcon className="w-5" />
                     </div>
@@ -226,9 +226,9 @@ const Player = ({ setCurrentSong, currentSong, spotifyApi }) => {
                         <VolumeUpIcon className="w-5" />
                     </div>
                 </div>
+                {/* Active Device */}
+                {activeDevice && <div className="absolute hidden md:block right-0 bottom-0 rounded-tl-md bg-active text-white px-4 text-xs">{`Active Device: ${activeDevice?.name}`}</div>}
             </div>
-            {/* Active Device */}
-            {activeDevice && <div className="bg-active text-white pl-4 text-xs">{`Active Device: ${activeDevice?.name}`}</div>}
         </div>
 
     )

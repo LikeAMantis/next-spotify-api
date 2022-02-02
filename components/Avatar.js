@@ -9,7 +9,7 @@ const Avatar = () => {
     const [active, setActive] = useState(false);
 
     return (
-        <div className="fixed flex items-center cursor-pointer w-fit h-7 spac lg:h-9 top-5 right-5 bg-black rounded-full p-0.5 pr-4 
+        <div className="absolute flex items-center cursor-pointer w-fit h-7 spac lg:h-9 top-5 right-5 bg-black rounded-full p-0.5 pr-4 
             space-x-3 font-semibold text-xs lg:text-sm"
             tabIndex={0}
             onClick={() => setActive(!active)}
