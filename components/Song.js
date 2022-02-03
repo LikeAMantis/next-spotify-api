@@ -31,7 +31,10 @@ const Song = ({ order, song, setCurrentSong, isActive, spotifyApi, uriType, uris
 
     return (
         <div
-            className={`song-container group items-center not:bg-blue-700:hover relative hover:bg-neutral-800 hover:text-white ${isActive && isPlay ? "font-bold animate-pulse" : ""}`}
+            className={`song-container group items-center not:bg-blue-700:hover relative hover:bg-neutral-800 hover:text-white 
+                ${isActive ? "font-bold" : ""}
+                ${isPlay ? "animate-pulse" : ""}`
+            }
             onDoubleClick={play}
         >
             <p className="group-hover:invisible visible text-right w-full pr-4">{order + 1}</p>
