@@ -33,7 +33,7 @@ const Song = ({ order, song, setCurrentSong, isActive, spotifyApi, uriType, uris
         <div
             className={`song-container group items-center not:bg-blue-700:hover relative hover:bg-neutral-800 hover:text-white 
                 ${isActive ? "font-bold" : ""}
-                ${isPlay ? "animate-pulse" : ""}`
+                ${isActive && isPlay ? "animate-pulse" : ""}`
             }
             onDoubleClick={play}
         >
