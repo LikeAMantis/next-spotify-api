@@ -1,6 +1,8 @@
 import "../styles/globals.css";
 import Head from "next/head";
 import { SessionProvider } from "next-auth/react";
+import { RecoilRoot } from "recoil";
+
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }) {
     const getLayout = Component.getLayout || ((page) => page);
@@ -11,9 +13,11 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
                 <title>{`Spotify NEXT`}</title>
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-            <SessionProvider session={session}>
-                {getLayout(<Component {...pageProps} />)}
-            </SessionProvider>
+            <RecoilRoot>
+                <SessionProvider session={session}>
+                    {getLayout(<Component {...pageProps} />)}
+                </SessionProvider>
+            </RecoilRoot>
         </>
     );
 }

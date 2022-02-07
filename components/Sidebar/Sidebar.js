@@ -7,12 +7,12 @@ import {
 import { Button } from "./Button";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useRecoilState } from "recoil";
+import { useRecoilValue } from "recoil";
 import { playingPlaylistIdState } from "../../atoms/playState";
 
 export const Sidebar = ({ playlists, sidebarIsOpen, setSidebarIsOpen }) => {
     const router = useRouter();
-    const playingPlaylistId = useRecoilState(playingPlaylistIdState);
+    const playingPlaylistId = useRecoilValue(playingPlaylistIdState);
 
     return (
         <div
@@ -25,6 +25,7 @@ export const Sidebar = ({ playlists, sidebarIsOpen, setSidebarIsOpen }) => {
                     icon={<HomeIcon className="w-4 lg:w-5" />}
                     onClick={() => setSidebarIsOpen(false)}
                     isActive={router.pathname === "/"}
+                    isPlaying={playingPlaylistId === "recentlyPlayedTracks"}
                 />
             </Link>
             <Button

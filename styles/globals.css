@@ -16,7 +16,6 @@
         @apply text-2xl xl:text-4xl font-bold;
     }
     p {
-        /* @apply max-w-5xl truncate */
         display: -webkit-box;
         -webkit-box-orient: vertical;
         -webkit-line-clamp: 1;
@@ -61,7 +60,7 @@
         justify-items-start items-center 
         py-4 px-8 mx-6 rounded-md
     }
-    .song-container > :not(:nth-child(1), :nth-child(2)) {
+    .song-container > :not(:nth-child(1), :nth-child(2), :last-child) {
         @apply hidden
     }
     .song-container > :nth-child(4) {

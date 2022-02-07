@@ -10,6 +10,11 @@ export const playingPlaylistIdState = atom({
     default: null,
 });
 
+export const playlistsState = atom({
+    key: "playlistsState",
+    default: [],
+});
+
 export const progressTimeState = atom({
     key: "progressTimeState",
     default: 0,
