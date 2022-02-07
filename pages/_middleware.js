@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 
 export async function middleware(req) {
     const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
-    const { pathname } = req.nextUrl
+    const { pathname } = req.nextUrl;
     console.log("token", token);
     // console.log("secret", process.env.NEXTAUTH_SECRET);
     // console.log("req", req);

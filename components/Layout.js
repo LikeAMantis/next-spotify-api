@@ -3,12 +3,11 @@ import { Children, cloneElement, useEffect, useRef, useState } from "react";
 import { Sidebar } from "./Sidebar/Sidebar";
 import useSpotify from "../lib/useSpotify";
 import Player from "./Player";
-import { RecoilRoot, useRecoilState } from 'recoil';
+import { RecoilRoot, useRecoilState } from "recoil";
 import { useRouter } from "next/router";
 import Head from "next/head";
-import MenuOpenIcon from '@mui/icons-material/MenuOpen';
+import MenuOpenIcon from "@mui/icons-material/MenuOpen";
 import { sidebarIsOpenState } from "../atoms/playState";
-
 
 export default function Layout({ children }) {
     const spotifyApi = useSpotify();
@@ -35,10 +34,9 @@ export default function Layout({ children }) {
         if (spotifyApi.getAccessToken()) {
             spotifyApi.getUserPlaylists().then((data) => {
                 setPlaylists(data.body.items);
-            })
+            });
         }
     }, [session]);
-
 
     return (
         <>
@@ -48,19 +46,40 @@ export default function Layout({ children }) {
                 </Head>
             )}
             {spotifyApi.getAccessToken() && (
-                <RecoilRoot >
+                <RecoilRoot>
                     <main className="grid h-screen grid-cols-1 grid-rows-1 md:grid-cols-[auto_1fr]">
-                        <MenuOpenIcon className="absolute top-5 left-2 text-secondary hover:text-white z-20 cursor-pointer md:[display:none_!important] bg-black p-1 rounded-md bg-opacity-75 hover:bg-opacity-100" fontSize="large" onClick={() => setSidebarIsOpen(isOpen => !isOpen)} />
-                        <Sidebar playlists={playlists} sidebarIsOpen={sidebarIsOpen} setSidebarIsOpen={setSidebarIsOpen} />
-                        {Children.map(children, child => cloneElement(child, { setCurrentSong, currentSong, ref, spotifyApi, className: sidebarIsOpen ? "hidden" : "block" }))}
-                        <Player currentSong={currentSong} setCurrentSong={setCurrentSong} spotifyApi={spotifyApi} />
+                        <MenuOpenIcon
+                            className="text-secondary absolute top-5 left-2 z-20 cursor-pointer rounded-md bg-black bg-opacity-75 p-1 hover:bg-opacity-100 hover:text-white md:[display:none_!important]"
+                            fontSize="large"
+                            onClick={() =>
+                                setSidebarIsOpen((isOpen) => !isOpen)
+                            }
+                        />
+                        <Sidebar
+                            playlists={playlists}
+                            sidebarIsOpen={sidebarIsOpen}
+                            setSidebarIsOpen={setSidebarIsOpen}
+                        />
+                        {Children.map(children, (child) =>
+                            cloneElement(child, {
+                                setCurrentSong,
+                                currentSong,
+                                ref,
+                                spotifyApi,
+                                className: sidebarIsOpen ? "hidden" : "block",
+                            })
+                        )}
+                        <Player
+                            currentSong={currentSong}
+                            setCurrentSong={setCurrentSong}
+                            spotifyApi={spotifyApi}
+                        />
                     </main>
                 </RecoilRoot>
             )}
         </>
-    )
+    );
 }
-
 
 export async function getServerSideProps(context) {
     const session = await getSession(context);
@@ -69,5 +88,5 @@ export async function getServerSideProps(context) {
         props: {
             session,
         }, // will be passed to the page component as props
-    }
+    };
 }
