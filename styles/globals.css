@@ -47,18 +47,13 @@
 }
 
 @layer components {
-
-
-    .song-container {
-        @apply gap-2
-    }
     .song-container {
         @apply grid 
         grid-cols-[48px_1fr]
         md:grid-cols-[48px_1fr_48px] 
         lg:grid-cols-[48px_1fr_1fr_48px]
         justify-items-start items-center 
-        py-4 px-8 mx-6 rounded-md
+        py-4 px-8 pr-12 mx-6 rounded-md gap-2
     }
     .song-container > :not(:nth-child(1), :nth-child(2), :last-child) {
         @apply hidden

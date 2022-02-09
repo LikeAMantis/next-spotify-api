@@ -8,9 +8,14 @@ import {
 } from "../atoms/playState";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { Button, Menu, MenuItem } from "@mui/material";
-import { useRef, useState } from "react";
-import NestedMenuItem from "material-ui-nested-menu-item";
+import { Button, ListItemIcon, ListItemText, Menu, MenuItem, MenuList, Typography } from "@mui/material";
+import { AddCircle, ArrowRight, Favorite, HeartBroken } from "@mui/icons-material"
+import { useState } from "react";
+import { NestedMenuItem } from "mui-nested-menu/build/NestedMenuItem"
+import { IconMenuItem } from "mui-nested-menu/build/IconMenuItem"
+
+
+
 
 const Song = ({
     order,
@@ -101,7 +106,7 @@ const Song = ({
             </p>
 
             {/* Menu */}
-            <div className="absolute -right-4 hidden group-hover:block">
+            <div className="absolute -right-2 hidden group-hover:block">
                 <Button
                     sx={{ color: "white" }}
                     id="basic-button"
@@ -113,6 +118,13 @@ const Song = ({
                     <DotsHorizontalIcon className="h-4 w-4" />
                 </Button>
                 <Menu
+                    sx={{
+                        ".MuiPaper-root": {
+                            backgroundColor: "#1e1e1e",
+                            color: "white",
+                            paddingX: "10px",
+                        }
+                    }}
                     id="basic-menu"
                     anchorEl={anchorEl}
                     open={open}
@@ -121,17 +133,35 @@ const Song = ({
                         "aria-labelledby": "basic-button",
                     }}
                 >
-                    <MenuItem onClick={handleClose}>Liked Songs</MenuItem>
-                    <NestedMenuItem label="Playlists" parentMenuOpen={open}>
-                        {playlists.map((playlist) => (
-                            <MenuItem key={playlist.id} onClick={handleClose}>
-                                {playlist.name}
-                            </MenuItem>
-                        ))}
+                    <IconMenuItem
+                        onClick={handleClose}
+                        leftIcon={<Favorite fontSize="small" />}
+                        label="Add to Favourite"
+                        fontSize="small"
+                    />
+                    <NestedMenuItem className="bg-black" sx={{
+                        ".MuiMenu-list": {
+                            backgroundColor: "#1e1e1e",
+                            color: "white",
+                            paddingX: "100px",
+                        }
+                    }}
+                        parentMenuOpen={open}
+                        leftIcon={<AddCircle fontSize="small" />}
+                        label={"Add to Playlist"}
+                    >
+
+                        <MenuList sx={{ background: "#1e1e1e", color: "white" }}>
+                            {playlists.map((playlist) => (
+                                <MenuItem dense key={playlist.id} onClick={handleClose}>
+                                    {playlist.name}
+                                </MenuItem>
+                            ))}
+                        </MenuList>
                     </NestedMenuItem>
                 </Menu>
             </div>
-        </div>
+        </div >
     );
 };
 

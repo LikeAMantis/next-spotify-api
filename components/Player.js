@@ -215,9 +215,8 @@ const Player = ({ setCurrentSong, currentSong, spotifyApi }) => {
                             }}
                         >
                             <RepeatIcon
-                                className={`${
-                                    repeat === "track" ? "text-active" : ""
-                                }`}
+                                className={`${repeat === "track" ? "text-active" : ""
+                                    }`}
                             />
                         </div>
                     </div>
@@ -244,8 +243,8 @@ const Player = ({ setCurrentSong, currentSong, spotifyApi }) => {
                         <p className="overflow-visible">
                             {currentSong
                                 ? millisToMinutesAndSeconds(
-                                      currentSong?.duration_ms
-                                  )
+                                    currentSong?.duration_ms
+                                )
                                 : ""}
                         </p>
                     </div>
@@ -257,7 +256,6 @@ const Player = ({ setCurrentSong, currentSong, spotifyApi }) => {
                         <VolumeOffIcon className="w-5" />
                     </div>
                     <div className="flex items-center" data-title={volume}>
-                        {/* <input className="w-24 h-1 cursor-pointer" onChange={e => setVolume(parseInt(e.target.value))} type="range" value={volume} /> */}
                         <Slider
                             size="medium"
                             onChange={(e) =>
