@@ -1,3 +1,8 @@
 {
-    "reactSnippets.settings.tabWidth": 4
+    "reactSnippets.settings.tabWidth": 4,
+    "emmet.includeLanguages": {
+        "javascript": "javascriptreact"
+    },
+    "editor.formatOnPaste": true,
+    "editor.formatOnSave": true
 }

@@ -9,6 +9,9 @@
         user-select: none;
         overflow: hidden;
     }
+    button {
+        @apply p-3 bg-gray-600
+    }
     h1 {
         @apply text-4xl xl:text-6xl font-bold;
     }
@@ -107,6 +110,14 @@
     .center {
         @apply relative overflow-y-scroll background break-all text-white md:block
     }
+    .MuiPaper-root {
+    font-size: 500px;
+    background: "black";
+}
+.MuiMenu-paper {
+    font-size: 500px;
+    background: "black";
+}
 }
 
 .transisition-container { position: relative; }
@@ -115,4 +126,13 @@
     position: relative;
     left: 0;
     transition: left 500ms;
+}
+
+.MuiPaper-root {
+    font-size: 500px;
+    background: "black";
+}
+.MuiMenu-paper {
+    font-size: 500px;
+    background: "black";
 }

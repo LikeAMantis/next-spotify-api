@@ -1,5 +1,6 @@
 const plugin = require('tailwindcss/plugin')
 const colors = require('tailwindcss/colors')
+const nestedGroups = require("tailwindcss-nested-groups")
 
 module.exports = {
     content: [
@@ -24,11 +25,13 @@ module.exports = {
         },
     },
     plugins: [
-        plugin(function ({ addVariant }) {
-            addVariant('child', '& > *');
-            // for (var i = 1; i <= 5; i++) {
-            //     addVariant(`nth-${i}`, `&:nth-child(${i})`);
-            // }
-        }),
+        nestedGroups,
+        require("tailwindcss-nested-groups"),
+        // plugin(function ({ addVariant }) {
+        //     addVariant('child', '& > *');
+        //     // for (var i = 1; i <= 5; i++) {
+        //     //     addVariant(`nth-${i}`, `&:nth-child(${i})`);
+        //     // }
+        // }),
     ]
 }

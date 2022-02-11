@@ -10,17 +10,17 @@ import { Button } from "./Sidebar/Button";
 
 const Avatar = () => {
     const { data: session } = useSession();
-    const [active, setActive] = useState(false);
+    const [isOpen, setIsOpen] = useState(false);
 
     return (
         <div
             className="spac absolute top-5 right-5 flex h-7 w-fit cursor-pointer items-center space-x-3 rounded-full bg-black p-0.5 pr-4 
             text-xs font-semibold lg:h-9 lg:text-sm"
             tabIndex={0}
-            onClick={() => setActive(!active)}
+            onClick={() => setIsOpen(!isOpen)}
             onBlur={(e) =>
                 e.relatedTarget?.parentElement?.dataset.type !== "module" &&
-                setActive(false)
+                setIsOpen(false)
             }
         >
             <img
@@ -28,7 +28,7 @@ const Avatar = () => {
                 src={session?.user?.image}
             />
             <p className="">{session?.user?.name}</p>
-            {!active ? (
+            {!isOpen ? (
                 <ChevronDownIcon className="w-4 lg:w-5" />
             ) : (
                 <>
