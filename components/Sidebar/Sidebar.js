@@ -16,8 +16,9 @@ export const Sidebar = ({ playlists, sidebarIsOpen, setSidebarIsOpen }) => {
 
     return (
         <div
-            className={`no-scrollbar text-secondary min-w-max space-y-3 overflow-y-scroll bg-black p-12 text-lg font-bold shadow-lg md:block md:p-5 md:pr-10 
-        md:text-base ${sidebarIsOpen ? "block" : "hidden"}`}
+            id="sidebar"
+            className={`no-scrollbar text-secondary w-52 min-w-max space-y-3 overflow-y-scroll bg-black p-12  text-base font-bold shadow-lg md:block md:p-5 
+            md:pr-10 ${sidebarIsOpen ? "block" : "hidden"}`}
         >
             <Link href="/" scroll={true}>
                 <Button

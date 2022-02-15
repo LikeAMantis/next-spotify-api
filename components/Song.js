@@ -8,9 +8,7 @@ import {
 } from "../atoms/playState";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { Button, Menu, MenuItem } from "@mui/material";
-import { useRef, useState } from "react";
-import NestedMenuItem from "material-ui-nested-menu-item";
+import { useState } from "react";
 
 const Song = ({
     order,
@@ -102,7 +100,7 @@ const Song = ({
 
             {/* Menu */}
             <div className="absolute -right-4 hidden group-hover:block">
-                <Button
+                {/* <Button
                     sx={{ color: "white" }}
                     id="basic-button"
                     aria-controls={open ? "basic-menu" : undefined}
@@ -129,7 +127,7 @@ const Song = ({
                             </MenuItem>
                         ))}
                     </NestedMenuItem>
-                </Menu>
+                </Menu> */}
             </div>
         </div>
     );

@@ -2,18 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
-
 @layer base {
     body {
         background: black;
         user-select: none;
         overflow: hidden;
     }
+    /* button {
+        @apply bg-gray-600 p-3;
+    } */
     h1 {
-        @apply text-4xl xl:text-6xl font-bold;
+        @apply text-4xl font-bold xl:text-6xl;
     }
     h2 {
-        @apply text-2xl xl:text-4xl font-bold;
+        @apply text-2xl font-bold xl:text-4xl;
     }
     p {
         display: -webkit-box;
@@ -22,61 +24,55 @@
         overflow: hidden;
     }
 
-
     /* Scrollbar */
 
-        /* width */
-        ::-webkit-scrollbar {
-            width: 10px;
-        }
-    
-        /* Track */
-        ::-webkit-scrollbar-track {
-        background: black; 
-        }
-    
-        /* Handle */
-        ::-webkit-scrollbar-thumb {
-            background: #555; 
-        }
-        
-        /* Handle on hover */
-        ::-webkit-scrollbar-thumb:hover {
-            background: #888; 
-        }
+    /* width */
+    ::-webkit-scrollbar {
+        width: 10px;
+    }
+
+    /* Track */
+    ::-webkit-scrollbar-track {
+        background: black;
+    }
+
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+        background: #555;
+    }
+
+    /* Handle on hover */
+    ::-webkit-scrollbar-thumb:hover {
+        background: #888;
+    }
 }
 
 @layer components {
-
-
     .song-container {
-        @apply gap-2
-    }
-    .song-container {
-        @apply grid 
-        grid-cols-[48px_1fr]
-        md:grid-cols-[48px_1fr_48px] 
-        lg:grid-cols-[48px_1fr_1fr_48px]
-        justify-items-start items-center 
-        py-4 px-8 mx-6 rounded-md
+        @apply mx-6 
+        grid
+        grid-cols-[48px_1fr] 
+        items-center
+        justify-items-start gap-2 
+        rounded-md py-4 px-8 pr-12 md:grid-cols-[48px_1fr_48px] lg:grid-cols-[48px_1fr_1fr_48px];
     }
     .song-container > :not(:nth-child(1), :nth-child(2), :last-child) {
-        @apply hidden
+        @apply hidden;
     }
     .song-container > :nth-child(4) {
-        @apply md:block
+        @apply md:block;
     }
     .song-container > :nth-child(3) {
-        @apply lg:block
+        @apply lg:block;
     }
 
     .player-btn-container > * {
-        @apply hover:text-white relative cursor-pointer
+        @apply relative cursor-pointer hover:text-white;
     }
     .player-btn-container > div[data-title]:hover::before {
-        @apply absolute -top-2 -translate-y-full
-        content-[attr(data-title)] 
-        w-max p-2 bg-black text-white rounded-md
+        @apply absolute -top-2 w-max
+        -translate-y-full 
+        rounded-md bg-black p-2 text-white content-[attr(data-title)];
     }
     .player-btn-container > div[data-title]::before {
         content: "";
@@ -84,40 +80,54 @@
     }
     .player-btn-container > div[data-title]:hover::before {
         visibility: visible;
-        transition-delay: 500ms
+        transition-delay: 500ms;
     }
 
     .label-wrapper {
-        @apply flex items-center
-        before:border-b before:w-full before:border-primary
-        after:border-b after:w-full after:border-primary
+        @apply before:border-primary after:border-primary
+        flex items-center before:w-full
+        before:border-b after:w-full after:border-b;
     }
 }
 
 @layer utilities {
     /* Chrome, Safari and Opera */
     .no-scrollbar::-webkit-scrollbar {
-      display: none;
+        display: none;
     }
     .no-scrollbar {
-      -ms-overflow-style: none; /* IE and Edge */
-      scrollbar-width: none; /* Firefox */
+        -ms-overflow-style: none; /* IE and Edge */
+        scrollbar-width: none; /* Firefox */
     }
-    .text-secondary { @apply text-gray-400 }
-    .text-active { @apply text-green-600 hover:text-green-500 }
-    .bg-active { @apply bg-green-600 } 
-    .border-primary { @apply border-gray-700 } 
-    .background { @apply bg-neutral-900 }
+    .text-secondary {
+        @apply text-gray-400;
+    }
+    .text-active {
+        @apply text-green-600 hover:text-green-500;
+    }
+    .bg-active {
+        @apply bg-green-600;
+    }
+    .border-primary {
+        @apply border-gray-700;
+    }
+    .background {
+        @apply bg-neutral-900;
+    }
 
     .center {
-        @apply relative overflow-y-scroll background break-all text-white md:block
+        @apply background relative overflow-y-scroll break-all text-white md:block;
+    }
+    .MuiPaper-root {
+        font-size: 500px;
+        background: "black";
+    }
+    .MuiMenu-paper {
+        font-size: 500px;
+        background: "black";
     }
 }
 
-.transisition-container { position: relative; }
-.target.active { visibility: hidden; }
-.target~* {
+.transisition-container {
     position: relative;
-    left: 0;
-    transition: left 500ms;
 }

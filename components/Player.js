@@ -1,4 +1,8 @@
-import { VolumeOffIcon, VolumeUpIcon } from "@heroicons/react/solid";
+import {
+    VolumeOffIcon,
+    VolumeUpIcon,
+    ArrowUpIcon,
+} from "@heroicons/react/solid";
 import SkipNextIcon from "@mui/icons-material/SkipNext";
 import ShuffleIcon from "@mui/icons-material/Shuffle";
 import RepeatIcon from "@mui/icons-material/Repeat";
@@ -10,6 +14,8 @@ import { useRecoilState } from "recoil";
 import { isPlayState, progressTimeState } from "../atoms/playState";
 import Link from "next/link";
 import millisToMinutesAndSeconds from "../lib/time";
+import { motion, AnimatePresence, LayoutGroup } from "framer-motion";
+import { ArrowDownIcon } from "@heroicons/react/outline";
 
 const sliderStyles = {
     color: "rgb(209, 213, 219)",
@@ -133,42 +139,90 @@ const Player = ({ setCurrentSong, currentSong, spotifyApi }) => {
         else return "off";
     }
 
+    const Left = useCallback(({ currentSong }) => {
+        const [isOpen, setIsOpen] = useState(false);
+
+        return (
+            <div className="player-btn-container flex items-center">
+                {currentSong && (
+                    <AnimatePresence>
+                        {!isOpen ? (
+                            // Original
+                            <motion.div
+                                className="group relative"
+                                layout="position"
+                                layoutDependency={isOpen}
+                            >
+                                <Link href={`/album/${currentSong?.album?.id}`}>
+                                    <img
+                                        className={`aspect-square w-14 bg-black shadow-sm shadow-black`}
+                                        src={currentSong?.album?.images[1]?.url}
+                                    />
+                                </Link>
+                                <ArrowUpIcon
+                                    className="absolute top-1 left-1 w-6 rounded-full bg-black p-1 opacity-0 group-hover:opacity-75"
+                                    onClick={() => setIsOpen(!isOpen)}
+                                />
+                            </motion.div>
+                        ) : (
+                            // Copy
+                            <motion.div
+                                className="group absolute top-0 left-0"
+                                initial={{
+                                    translateY: "0%",
+                                    opacity: 0,
+                                }}
+                                animate={{
+                                    translateY: "-100%",
+                                    opacity: 1,
+                                }}
+                                exit={{ translateY: "0%", opacity: 0 }}
+                                transition={{ duration: 0.35 }}
+                            >
+                                <Link href={`/album/${currentSong?.album?.id}`}>
+                                    <img
+                                        className={`aspect-square w-52 bg-black shadow-sm shadow-black`}
+                                        src={currentSong?.album?.images[1]?.url}
+                                    />
+                                </Link>
+                                <ArrowDownIcon
+                                    className="absolute top-2 left-2 w-7 rounded-full bg-black p-1 opacity-0 group-hover:opacity-75"
+                                    onClick={() => setIsOpen(!isOpen)}
+                                />
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
+                )}
+                <motion.div
+                    className="cursor-default overflow-hidden text-xs lg:text-sm"
+                    layout="position"
+                    layoutDependency={isOpen}
+                >
+                    <p className="font-bold text-white">{currentSong?.name}</p>
+                    <Link href={`/artist/${currentSong?.artists[0]?.id}`}>
+                        <p className="cursor-pointer">
+                            {currentSong?.artists
+                                ?.map((x) => x.name)
+                                .join(", ")}
+                        </p>
+                    </Link>
+                </motion.div>
+            </div>
+        );
+    }, []);
+
     return (
-        <div className="relative col-span-full">
+        <div className="relative z-10 col-span-full">
             <div
                 className="border-primary grid 
                 h-20 grid-cols-3 items-center gap-2 border-t 
                 bg-neutral-800 px-6 text-gray-300 child:space-x-2
                 "
             >
-                {/* Left - SongInfo*/}
-                <div className="player-btn-container flex items-center">
-                    {currentSong && (
-                        <Link href={`/album/${currentSong?.album?.id}`}>
-                            <img
-                                className="z-10 aspect-square w-12 origin-bottom-left
-                            bg-black shadow-sm shadow-black duration-500 hover:scale-[4]
-                            "
-                                src={currentSong?.album?.images[1]?.url}
-                            />
-                        </Link>
-                    )}
-                    <div className="cursor-default overflow-hidden text-xs lg:text-sm">
-                        <p className="font-bold text-white  ">
-                            {currentSong?.name}
-                        </p>
-                        <Link href={`/artist/${currentSong?.artists[0]?.id}`}>
-                            <p className="cursor-pointer">
-                                {currentSong?.artists
-                                    ?.map((x) => x.name)
-                                    .join(", ")}
-                            </p>
-                        </Link>
-                    </div>
-                </div>
+                <Left currentSong={currentSong} />
 
-                {/* Center - Play */}
-                <div className="flex flex-col items-center justify-center gap-1">
+                {/* Center */}
+                <div className="relative flex flex-col items-center justify-center gap-1">
                     <div className="player-btn-container flex items-center justify-center gap-1 justify-self-center md:gap-2">
                         <div
                             data-title="Shuffle"
@@ -251,7 +305,7 @@ const Player = ({ setCurrentSong, currentSong, spotifyApi }) => {
                     </div>
                 </div>
 
-                {/* Right - Volume */}
+                {/* Right */}
                 <div className="player-btn-container relative flex items-center justify-self-end">
                     <div onClick={() => setVolume(volume - 10)}>
                         <VolumeOffIcon className="w-5" />
@@ -267,11 +321,11 @@ const Player = ({ setCurrentSong, currentSong, spotifyApi }) => {
                             sx={{ ...sliderStyles, width: "80px" }}
                         />
                     </div>
-                    <div onClick={() => setVolume(volume + 10)}>
+
+                    <div target onClick={() => setVolume(volume + 10)}>
                         <VolumeUpIcon className="w-5" />
                     </div>
                 </div>
-                {/* Active Device */}
                 {activeDevice && (
                     <div className="bg-active absolute right-0 bottom-0 hidden rounded-tl-md px-4 text-xs text-white md:block">{`Active Device: ${activeDevice?.name}`}</div>
                 )}
