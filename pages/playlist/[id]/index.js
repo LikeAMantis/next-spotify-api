@@ -8,7 +8,7 @@ import PlayPause from "../../../components/PlayPause";
 import usePlaylist from "../../../lib/usePlaylist";
 
 const Playlist = forwardRef(
-    ({ setCurrentSong, currentSong, spotifyApi, className }, ref) => {
+    ({ setCurrentSong, currentSong, spotifyApi }, ref) => {
         const [playingPlaylistId, setPlayingPlaylistId] = useRecoilState(
             playingPlaylistIdState
         );
@@ -25,7 +25,7 @@ const Playlist = forwardRef(
         }
 
         return (
-            <div ref={ref} className={`center ${className}`}>
+            <>
                 {playlist && (
                     <>
                         <Header
@@ -60,7 +60,7 @@ const Playlist = forwardRef(
                         />
                     </>
                 )}
-            </div>
+            </>
         );
     }
 );

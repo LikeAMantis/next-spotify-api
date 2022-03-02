@@ -35,9 +35,12 @@ const Songs = ({
         return (
             <TransitionGroup>
                 {songs.map((song, i) => (
-                    <Collapse enter={false} orientation="vertical">
+                    <Collapse
+                        key={song?.id}
+                        enter={false}
+                        orientation="vertical"
+                    >
                         <Song
-                            key={song?.id}
                             order={i}
                             song={song}
                             isActive={props.currentSong?.id === song?.id}

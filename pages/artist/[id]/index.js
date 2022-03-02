@@ -4,7 +4,7 @@ import Header from "../../../components/Header";
 import { useRouter } from "next/router";
 import ArtistCategory from "../../../components/ArtistCategory";
 
-export default function Artist({ spotifyApi, className }) {
+export default function Artist({ spotifyApi }) {
     const router = useRouter();
     const [artist, setArtist] = useState(null);
     const [albums, setAlbums] = useState([]);
@@ -19,7 +19,7 @@ export default function Artist({ spotifyApi, className }) {
     }, [router]);
 
     return (
-        <div className={`center ${className}`}>
+        <>
             <Header
                 type="Artist"
                 name={artist?.name}
@@ -45,7 +45,7 @@ export default function Artist({ spotifyApi, className }) {
                     albums={albums.filter((album) => album.total_tracks === 1)}
                 />
             </div>
-        </div>
+        </>
     );
 }
 

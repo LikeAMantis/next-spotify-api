@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Avatar from "./Avatar";
 
 const colors = [
@@ -19,9 +19,13 @@ function randomColor() {
 const Header = ({ songNumber, type, name, imgRef, className }) => {
     const [color, setColor] = useState(colors[0]);
     const router = useRouter();
+    const cachedId = useRef();
 
     useEffect(() => {
+        if (router.query.id === cachedId.current) return;
+
         setColor(randomColor());
+        cachedId.current = router.query.id;
     }, [router]);
 
     return (

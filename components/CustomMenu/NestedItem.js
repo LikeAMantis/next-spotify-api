@@ -64,15 +64,18 @@ export default function NestedItem({ children, label, icon }) {
                                     aria-labelledby="composition-button"
                                     onKeyDown={handleListKeyDown}
                                 >
-                                    {Children.map(children, (child) =>
-                                        cloneElement(child, {
-                                            onClick: (e) => {
-                                                const onClick =
-                                                    child.props.onClick;
-                                                if (onClick) onClick();
-                                                menuHandleClose(e);
-                                            },
-                                        })
+                                    {Children.map(
+                                        children,
+                                        (child) =>
+                                            children &&
+                                            cloneElement(child, {
+                                                onClick: (e) => {
+                                                    const onClick =
+                                                        child.props.onClick;
+                                                    if (onClick) onClick();
+                                                    menuHandleClose(e);
+                                                },
+                                            })
                                     )}
                                 </List>
                             </ClickAwayListener>

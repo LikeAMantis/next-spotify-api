@@ -62,15 +62,18 @@ const CustomMenu = ({ ButtonElement, children, sx }) => {
                                             sx,
                                         }}
                                     >
-                                        {Children.map(children, (child) =>
-                                            cloneElement(child, {
-                                                onClick: (e) => {
-                                                    const onClick =
-                                                        child.props.onClick;
-                                                    if (onClick) onClick();
-                                                    handleClose(e);
-                                                },
-                                            })
+                                        {Children.map(
+                                            children,
+                                            (child) =>
+                                                child &&
+                                                cloneElement(child, {
+                                                    onClick: (e) => {
+                                                        const onClick =
+                                                            child.props.onClick;
+                                                        if (onClick) onClick();
+                                                        handleClose(e);
+                                                    },
+                                                })
                                         )}
                                     </MenuContext.Provider>
                                 </List>

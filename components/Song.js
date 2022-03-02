@@ -10,11 +10,9 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import { useState } from "react";
 import CustomMenu from "./CustomMenu/index";
-import { Collapse, MenuItem } from "@mui/material";
+import { MenuItem } from "@mui/material";
 import { AddCircle, FavoriteOutlined, RemoveCircle } from "@mui/icons-material";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
-import { motion } from "framer-motion";
-import { TransitionGroup } from "react-transition-group";
 
 if (typeof window !== "undefined") {
     var menuColor = getComputedStyle(document.documentElement).getPropertyValue(
@@ -137,10 +135,12 @@ const Song = ({
                             <FavoriteOutlined fontSize="small" />
                             Like Song
                         </MenuItem>
-                        <MenuItem onClick={() => onRemove(song.id)}>
-                            <RemoveCircle fontSize="small" />
-                            Remove from Playlist
-                        </MenuItem>
+                        {onRemove && (
+                            <MenuItem onClick={() => onRemove(song.id)}>
+                                <RemoveCircle fontSize="small" />
+                                Remove from Playlist
+                            </MenuItem>
+                        )}
                         <CustomMenu.Nested
                             icon={<AddCircle fontSize="small" />}
                             label="Add to Playlist"
