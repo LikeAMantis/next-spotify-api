@@ -167,7 +167,7 @@ const Player = ({ setCurrentSong, currentSong, spotifyApi }) => {
                         ) : (
                             // Copy
                             <motion.div
-                                className="group absolute top-0 left-0"
+                                className="group absolute top-0 left-0 -z-10"
                                 initial={{
                                     translateY: "0%",
                                     opacity: 0,
@@ -216,7 +216,7 @@ const Player = ({ setCurrentSong, currentSong, spotifyApi }) => {
             <div
                 className="border-primary grid 
                 h-20 grid-cols-3 items-center gap-2 border-t 
-                bg-neutral-800 px-6 text-gray-300 child:space-x-2
+                bg-neutral-800 px-6 text-gray-300 child:gap-x-2
                 "
             >
                 <Left currentSong={currentSong} />

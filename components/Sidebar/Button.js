@@ -1,4 +1,7 @@
 import { VolumeUpIcon } from "@heroicons/react/solid";
+import { AnimatePresence, motion } from "framer-motion";
+import { useRecoilValue } from "recoil";
+import { isPlayState } from "../../atoms/playState";
 
 export const Button = ({
     text,
@@ -8,9 +11,11 @@ export const Button = ({
     isActive = false,
     isPlaying = false,
 }) => {
+    const isPlay = useRecoilValue(isPlayState);
+
     return (
         <button
-            className={`relative flex w-full cursor-pointer items-center space-x-2 overflow-visible md:overflow-visible truncate hover:text-white
+            className={`relative flex w-full cursor-pointer items-center space-x-2 overflow-visible truncate hover:text-white md:overflow-visible
                 ${className ?? ""}
                 ${isActive ? "text-white" : ""}
                 `}
@@ -18,7 +23,14 @@ export const Button = ({
         >
             {icon}
             <p>{text}</p>
-            {isPlaying && <VolumeUpIcon className="absolute -right-6 w-4" />}
+            {isPlaying && isPlay && (
+                <motion.div
+                    layoutId="sharedId"
+                    className="absolute -right-6 w-4"
+                >
+                    <VolumeUpIcon />
+                </motion.div>
+            )}
         </button>
     );
 };

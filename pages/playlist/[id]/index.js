@@ -1,31 +1,19 @@
-import { forwardRef, useEffect, useRef, useState } from "react";
+import { forwardRef } from "react";
 import Header from "../../../components/Header";
 import Songs from "../../../components/Songs";
 import { useRecoilState } from "recoil";
 import { playingPlaylistIdState } from "../../../atoms/playState";
 import Layout from "../../../components/Layout";
-import { useRouter } from "next/router";
 import PlayPause from "../../../components/PlayPause";
-import MenuOpenIcon from "@mui/icons-material/MenuOpen";
+import usePlaylist from "../../../lib/usePlaylist";
 
 const Playlist = forwardRef(
     ({ setCurrentSong, currentSong, spotifyApi, className }, ref) => {
         const [playingPlaylistId, setPlayingPlaylistId] = useRecoilState(
             playingPlaylistIdState
         );
-        const router = useRouter();
-        const [playlist, setPlaylist] = useState(null);
-
-        useEffect(() => {
-            async function getPlaylist() {
-                if (!router.query.id) return;
-
-                const res = await spotifyApi.getPlaylist(router.query.id);
-                setPlaylist(res.body);
-            }
-
-            getPlaylist();
-        }, [router]);
+        const [playlist, songs, totalSongs, removeSong] =
+            usePlaylist(spotifyApi);
 
         async function handlePlayPlause() {
             await spotifyApi.play({ context_uri: playlist.uri });
@@ -44,10 +32,11 @@ const Playlist = forwardRef(
                             type={"PLAYLIST"}
                             name={playlist.name}
                             imgRef={playlist.images[0].url}
-                            songNumber={playlist.tracks.total}
+                            songNumber={totalSongs}
                         />
                         <Songs
-                            songs={playlist.tracks.items.map((x) => x.track)}
+                            songs={songs}
+                            onRemove={removeSong}
                             spotifyApi={spotifyApi}
                             setCurrentSong={setCurrentSong}
                             currentSong={currentSong}

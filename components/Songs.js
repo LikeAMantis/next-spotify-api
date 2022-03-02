@@ -1,4 +1,7 @@
+import { Collapse } from "@mui/material";
+import { LayoutGroup, motion, AnimatePresence } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
+import { TransitionGroup } from "react-transition-group";
 import Song from "./Song";
 
 const Songs = ({
@@ -29,16 +32,22 @@ const Songs = ({
     }, []);
 
     function drawPlaylist() {
-        return songs.map((song, i) => (
-            <Song
-                key={song?.id}
-                order={i}
-                song={song}
-                isActive={props.currentSong?.id === song?.id}
-                uris={songs.map((song) => song.uri)}
-                {...props}
-            />
-        ));
+        return (
+            <TransitionGroup>
+                {songs.map((song, i) => (
+                    <Collapse enter={false} orientation="vertical">
+                        <Song
+                            key={song?.id}
+                            order={i}
+                            song={song}
+                            isActive={props.currentSong?.id === song?.id}
+                            uris={songs.map((song) => song.uri)}
+                            {...props}
+                        />
+                    </Collapse>
+                ))}
+            </TransitionGroup>
+        );
     }
 
     return (
@@ -61,7 +70,8 @@ const Songs = ({
                     <h3 className="w-max justify-self-end">Duration</h3>
                 </div>
             </div>
-            <div>{drawPlaylist()}</div>
+
+            {drawPlaylist()}
         </div>
     );
 };
