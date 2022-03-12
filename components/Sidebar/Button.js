@@ -15,7 +15,7 @@ export const Button = ({
 
     return (
         <button
-            className={`relative flex w-full cursor-pointer items-center space-x-2 overflow-visible truncate hover:text-white md:overflow-visible
+            className={`relative flex w-full cursor-pointer items-center justify-center space-x-2 overflow-visible truncate hover:text-white md:justify-start md:overflow-visible
                 ${className ?? ""}
                 ${isActive ? "text-white" : ""}
                 `}

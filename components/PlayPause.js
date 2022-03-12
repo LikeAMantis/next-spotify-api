@@ -22,11 +22,11 @@ const PlayPause = ({
 
     return (
         <>
-            {isPlay && condition ? (
-                <div
-                    className="flex items-center text-white"
-                    data-title="Pause"
-                >
+            <div
+                className="flex items-center text-white"
+                data-title={isPlay && condition ? "Pause" : "Play"}
+            >
+                {isPlay && condition ? (
                     <PauseIcon
                         className={
                             "cursor-pointer hover:scale-110 " + className
@@ -36,34 +36,23 @@ const PlayPause = ({
                             spotifyApi.pause();
                         }}
                     />
-                    <h2
-                        className={`absolute left-28 transition-opacity duration-200 ${
-                            isSticky ? "opacity-100" : "opacity-0"
-                        }`}
-                    >
-                        {playlistName}
-                    </h2>
-                </div>
-            ) : (
-                <div
-                    className="flex items-center  text-white"
-                    data-title="Play"
-                >
+                ) : (
                     <PlayIcon
                         className={
-                            "cursor-pointer hover:scale-110 " + className
+                            "cursor-pointer duration-200 hover:scale-110 " +
+                            className
                         }
                         onClick={handlePlay}
                     />
-                    <h2
-                        className={`absolute left-28 transition-opacity duration-200 ${
-                            isSticky ? "opacity-100" : "opacity-0"
-                        }`}
-                    >
-                        {playlistName}
-                    </h2>
-                </div>
-            )}
+                )}
+                <h2
+                    className={`absolute left-28 transition-opacity duration-200 ${
+                        isSticky ? "opacity-100" : "opacity-0"
+                    }`}
+                >
+                    {playlistName}
+                </h2>
+            </div>
         </>
     );
 };

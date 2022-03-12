@@ -39,6 +39,7 @@ const Songs = ({
                         key={song?.id}
                         enter={false}
                         orientation="vertical"
+                        unmountOnEx
                     >
                         <Song
                             order={i}

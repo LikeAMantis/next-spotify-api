@@ -19,6 +19,14 @@ export default function Layout({ children }) {
     const ref = useRef();
     const router = useRouter();
 
+    // useEffect(() => {
+    //     window.addEventListener("resize", () => {
+    //         if (window.innerWidth > 768) {
+    //             setSidebarIsOpen(false);
+    //         }
+    //     });
+    // }, []);
+
     useEffect(() => {
         ref.current?.scrollTo(0, 0);
     }, [router]);
@@ -30,6 +38,13 @@ export default function Layout({ children }) {
             });
         }
     }, [session]);
+
+    function addPlaylist(name) {
+        setPlaylists([
+            ...playlists,
+            { id: Math.floor(Math.random() * 10000), name },
+        ]);
+    }
 
     return (
         <>
@@ -47,30 +62,32 @@ export default function Layout({ children }) {
                     />
                     <Sidebar
                         playlists={playlists}
+                        addPlaylist={addPlaylist}
                         sidebarIsOpen={sidebarIsOpen}
                         setSidebarIsOpen={setSidebarIsOpen}
                     />
-
-                    {Children.map(children, (child) => (
-                        <motion.div
-                            ref={ref}
-                            key={router.query.id}
-                            className={`center ${
-                                sidebarIsOpen ? "hidden" : "block"
-                            }`}
-                            initial={{ opacity: 0.5 }}
-                            animate={{ opacity: 1 }}
-                            transition={{ duration: 0.5 }}
-                        >
-                            {cloneElement(child, {
-                                setCurrentSong,
-                                currentSong,
-                                ref,
-                                spotifyApi,
-                            })}
-                        </motion.div>
-                    ))}
-
+                    {true && (
+                        <>
+                            {Children.map(children, (child) => (
+                                <motion.div
+                                    ref={ref}
+                                    key={router.query.id}
+                                    className={`center`}
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    exit={{ opacity: 0 }}
+                                    transition={{ duration: 0.5 }}
+                                >
+                                    {cloneElement(child, {
+                                        setCurrentSong,
+                                        currentSong,
+                                        ref,
+                                        spotifyApi,
+                                    })}
+                                </motion.div>
+                            ))}
+                        </>
+                    )}
                     <Player
                         currentSong={currentSong}
                         setCurrentSong={setCurrentSong}
