@@ -8,7 +8,7 @@ import { useRouter } from "next/router";
 import Head from "next/head";
 import MenuOpenIcon from "@mui/icons-material/MenuOpen";
 import { playlistsState } from "../atoms/playState";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 
 export default function Layout({ children }) {
     const spotifyApi = useSpotify();
@@ -18,14 +18,6 @@ export default function Layout({ children }) {
     const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
     const ref = useRef();
     const router = useRouter();
-
-    // useEffect(() => {
-    //     window.addEventListener("resize", () => {
-    //         if (window.innerWidth > 768) {
-    //             setSidebarIsOpen(false);
-    //         }
-    //     });
-    // }, []);
 
     useEffect(() => {
         ref.current?.scrollTo(0, 0);
@@ -54,7 +46,7 @@ export default function Layout({ children }) {
                 </Head>
             )}
             {spotifyApi.getAccessToken() && (
-                <main className="grid h-screen grid-cols-1 grid-rows-1 md:grid-cols-[auto_1fr]">
+                <div className="grid h-screen grid-cols-1 grid-rows-1 md:grid-cols-[auto_1fr]">
                     <MenuOpenIcon
                         className="text-secondary absolute top-5 left-2 z-20 cursor-pointer rounded-md bg-black bg-opacity-75 p-1 hover:bg-opacity-100 hover:text-white md:[display:none_!important]"
                         fontSize="large"
@@ -69,7 +61,7 @@ export default function Layout({ children }) {
                     {true && (
                         <>
                             {Children.map(children, (child) => (
-                                <motion.div
+                                <motion.main
                                     ref={ref}
                                     key={router.query.id}
                                     className={`center`}
@@ -84,7 +76,7 @@ export default function Layout({ children }) {
                                         ref,
                                         spotifyApi,
                                     })}
-                                </motion.div>
+                                </motion.main>
                             ))}
                         </>
                     )}
@@ -93,7 +85,7 @@ export default function Layout({ children }) {
                         setCurrentSong={setCurrentSong}
                         spotifyApi={spotifyApi}
                     />
-                </main>
+                </div>
             )}
         </>
     );

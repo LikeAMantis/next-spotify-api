@@ -14,7 +14,7 @@ import { useRecoilState } from "recoil";
 import { isPlayState, progressTimeState } from "../atoms/playState";
 import Link from "next/link";
 import millisToMinutesAndSeconds from "../lib/time";
-import { motion, AnimatePresence, LayoutGroup } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { ArrowDownIcon } from "@heroicons/react/outline";
 
 const sliderStyles = {

@@ -1,5 +1,4 @@
 import { Collapse } from "@mui/material";
-import { LayoutGroup, motion, AnimatePresence } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { TransitionGroup } from "react-transition-group";
 import Song from "./Song";
